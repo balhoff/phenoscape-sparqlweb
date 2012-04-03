@@ -1,0 +1,6 @@
+<a href="../taxon?iri=<%=  taxon.value %>"><%= taxon_label.value %></a>
+
+<div class="spark" data-spark-endpoint="http://kb-dev.phenoscape.org/sparql" data-spark-query="select count(distinct ?otu) as ?otu_count where { ?otu <http://vocab.phenoscape.org/represents_taxon> <<%= taxon.value %>> . }" data-spark-format="/scripts/underscore.template_each.js" data-spark-param-partial="./_taxon_otu_count.html">
+Counting otus...
+</div>
+<br>

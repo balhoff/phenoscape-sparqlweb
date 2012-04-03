@@ -1,0 +1,13 @@
+PREFIX ps: <http://vocab.phenoscape.org/> 
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> 
+SELECT distinct ?taxon ?taxon_label 
+FROM <http://kb.phenoscape.org/> 
+WHERE 
+{ 
+?taxon rdf:type ps:taxon . 
+?taxon rdfs:label ?taxon_label .
+} 
+
+ORDER BY <%= desc ? 'desc(?taxon_label)' : '?taxon_label' %>
+LIMIT <%= limit %>
+OFFSET <%= offset %>

@@ -1,0 +1,8 @@
+SELECT ?taxon_label ?parent_label
+FROM <http://kb.phenoscape.org/> 
+WHERE 
+{ 
+<<%= iri %>> rdfs:label ?taxon_label .
+<<%= iri %>> <http://vocab.phenoscape.org/subclade_of> ?parent .
+?parent rdfs:label ?parent_label .
+}
