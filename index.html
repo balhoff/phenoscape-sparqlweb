@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+	<title>Phenoscape Knowledgebase</title>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.4.4/jquery.min.js"></script>
+	<script src="http://documentcloud.github.com/underscore/underscore-min.js"></script>
+	<script src="/scripts/jquery.spark.js"></script>
+	<script src="/scripts/purl.js"></script>
+	<script src="/scripts/partials.js"></script>
+	<link href="/style/main.css" media="screen" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="header"></div>
+<h2>Data</h2>
+<div>
+<p><a href="/characters"><span id="character_count"><img class="spinner" src="/images/rotation.gif"/></span> characters</a></p>
+<p><a href="/taxa"><span id="taxon_count"><img class="spinner" src="/images/rotation.gif"/></span> annotated taxa</a></p>
+</div>
+<h2>Ontologies</h2>
+<table>
+	<thead>
+		<tr><th>Ontology</th><th>Version</th></tr>
+	</thead>
+	<tbody id="ontologies">
+	</tbody>
+</table>
+<div id="footer"></div>
+</body>
+<script>
+$(document).ready(function() {
+	$("#header").load_partial('../shared/_header.html', {}, null);
+	$("#footer").load_partial('../shared/_footer.html', {}, null);
+	$("#character_count").spark_template('/shared/count_characters.rq', {endpoint:"http://kb-dev.phenoscape.org/sparql", format:"/scripts/underscore.template_each.js", param:{partial:"/shared/_count.html"}}, {});
+	$("#taxon_count").spark_template('/shared/count_annotated_taxa.rq', {endpoint:"http://kb-dev.phenoscape.org/sparql", format:"/scripts/underscore.template_each.js", param:{partial:"/shared/_count.html"}}, {});
+	$("#ontologies").spark_template('/ontologies/ontologies.rq', {endpoint:"http://kb-dev.phenoscape.org/sparql", format:"/scripts/underscore.template_each.js", param:{partial:"/ontologies/_ontology.html"}}, {});
+	});
+</script>
+</html>

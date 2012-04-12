@@ -1,0 +1,12 @@
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> 
+PREFIX obo: <http://purl.obolibrary.org/obo/>
+SELECT ?ontology ?version
+FROM <http://kb.phenoscape.org/> 
+WHERE 
+{ 
+?ontology rdf:type owl:Ontology . 
+OPTIONAL
+	{
+	?ontology owl:versionIRI ?version .
+	}
+} 

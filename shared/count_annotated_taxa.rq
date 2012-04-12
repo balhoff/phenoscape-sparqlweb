@@ -1,0 +1,12 @@
+PREFIX ps: <http://vocab.phenoscape.org/> 
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> 
+PREFIX obo: <http://purl.obolibrary.org/obo/>
+SELECT count(distinct ?taxon) as ?count
+FROM <http://kb.phenoscape.org/> 
+WHERE 
+{ 
+?taxon rdf:type ps:taxon . 
+?taxon ps:has_member ?member .
+# this undercounts if the taxon has only an absence annotation
+?member obo:BFO_0000051 ?part .
+} 

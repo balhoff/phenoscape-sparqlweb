@@ -1,0 +1,17 @@
+PREFIX ps: <http://vocab.phenoscape.org/> 
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> 
+PREFIX cdao: <http://www.evolutionaryontology.org/cdao/1.0/cdao.owl#>
+SELECT distinct ?character ?character_label 
+FROM <http://kb.phenoscape.org/> 
+WHERE 
+{ 
+?character rdf:type cdao:StandardCharacter . 
+?character rdfs:label ?character_label .
+<% if (text) { %>
+?character_label bif:contains '"<%= text %>"' .
+<% } %>
+} 
+
+ORDER BY <%= desc ? 'desc(?character_label)' : '?character_label' %>
+LIMIT <%= limit %>
+OFFSET <%= offset %>

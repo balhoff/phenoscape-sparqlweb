@@ -1,0 +1,9 @@
+<% var statesID = nextID() %>
+
+<p><%= character_label.value %></p>
+<div class="states-for-character" id="<%= statesID %>" style="margin-left: 3em; color: gray">
+</div>
+
+<script>
+$("#<%= statesID %>").spark_template('./states_for_character.rq', {endpoint:"http://kb-dev.phenoscape.org/sparql", format:"/scripts/underscore.template_each.js", param:{partial:"./_character_state.html"}}, {character:"<%= character.value %>", limit:20});
+</script>

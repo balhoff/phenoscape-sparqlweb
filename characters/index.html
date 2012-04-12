@@ -2,20 +2,23 @@
 <html lang="en">
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-	<title>Taxa « Phenoscape Knowledgebase</title>
+	<title>Characters « Phenoscape Knowledgebase</title>
 	<!-- Date: 2012-03-27 -->
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.4.4/jquery.min.js"></script>
 	<script src="http://documentcloud.github.com/underscore/underscore-min.js"></script>
 	<script src="/scripts/jquery.spark.js"></script>
 	<script src="/scripts/purl.js"></script>
 	<script src="/scripts/partials.js"></script>
-	<style type="text/css">
-a {display: block;}
-	</style>
+	<link href="/style/main.css" media="screen" rel="stylesheet" type="text/css" />
 </head>
 <body>
 <div id="header"></div>
-<div id="taxa">
+<div id="query_form" action="">
+	<form>
+		<input name="text" class="search-field"></text><input type="submit" value="Search characters">
+	</form>
+</div>
+<div id="characters">
 Loading...
 </div>
 <div id="footer"></div>
@@ -25,7 +28,8 @@ $(document).ready(function() {
 	$("#header").load_partial('../shared/_header.html', {}, null);
 	$("#footer").load_partial('../shared/_footer.html', {}, null);
 	var offset = purl().param('offset');
-	$("#taxa").spark_template('./taxa.rq', {endpoint:"http://kb-dev.phenoscape.org/sparql", format:"/scripts/underscore.template_each.js", param:{partial:"./_taxon.html"}}, {limit:20, desc:(purl().param('desc') == 'true'), offset:(offset ? offset : 0)});
+	var text = purl().param('text');
+	$("#characters").spark_template('./characters.rq', {endpoint:"http://kb-dev.phenoscape.org/sparql", format:"/scripts/underscore.template_each.js", param:{partial:"./_character.html"}}, {limit:20, desc:(purl().param('desc') == 'true'), offset:(offset ? offset : 0), text:text});
 	});
 </script>
 </html>

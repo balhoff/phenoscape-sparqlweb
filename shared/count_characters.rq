@@ -1,0 +1,8 @@
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> 
+PREFIX cdao: <http://www.evolutionaryontology.org/cdao/1.0/cdao.owl#>
+SELECT count(*) as ?count
+FROM <http://kb.phenoscape.org/> 
+WHERE 
+{ 
+?character rdf:type cdao:StandardCharacter . 
+} 

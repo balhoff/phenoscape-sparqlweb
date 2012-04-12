@@ -1,3 +1,9 @@
+var uniqueIDIncrementer = 0;
+function nextID() {
+	uniqueIDIncrementer += 1;
+	return "id" + uniqueIDIncrementer;
+}
+
 (function($){
 	$.fn.load_partial = function(partial, data, processor) {
 		var $this = $(this);
