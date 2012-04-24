@@ -1,0 +1,32 @@
+PREFIX ps: <http://vocab.phenoscape.org/> 
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> 
+PREFIX cdao: <http://www.evolutionaryontology.org/cdao/1.0/cdao.owl#>
+PREFIX obo: <http://purl.obolibrary.org/obo/>
+
+select distinct ?type ?type_label
+FROM <http://kb.phenoscape.org/> 
+# this doesn't yet handle negation for absence
+WHERE 
+{ 
+?cell cdao:belongs_to_Character <<%= character %>> .
+?cell cdao:has_State ?state .
+?state ps:denotes_exemplar ?exemplar .
+?exemplar obo:BFO_0000051 ?part option(transitive) .
+{ ?part rdf:type ?type .
+}
+UNION
+{
+ ?part obo:BFO_0000050 ?locator option(transitive) .
+ ?locator rdf:type ?type .
+}
+UNION
+{
+ ?part obo:BFO_0000053 ?quality .
+ ?quality obo:OBO_REL_towards ?dep_entity .
+ ?dep_entity rdf:type ?type .
+}
+?type rdfs:label ?type_label .
+# need to filter certain IRIs
+FILTER(!(?type IN (obo:BFO_0000001, obo:BFO_0000002, obo:BFO_0000004)))
+} 
+

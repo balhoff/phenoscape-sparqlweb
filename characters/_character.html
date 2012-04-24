@@ -1,9 +1,15 @@
 <% var statesID = nextID() %>
+<% var conceptsID = nextID() %>
 
-<p><%= character_label.value %></p>
+<p class="character-description"><%= character_label.value %></p>
 <div class="states-for-character" id="<%= statesID %>" style="margin-left: 3em; color: gray">
+</div>
+<div class="character-concepts" id="<%= conceptsID %>">
+	Loading concepts...
 </div>
 
 <script>
-$("#<%= statesID %>").spark_template('./states_for_character.rq', {endpoint:"http://kb-dev.phenoscape.org/sparql", format:"/scripts/underscore.template_each.js", param:{partial:"./_character_state.html"}}, {character:"<%= character.value %>", limit:20});
+$("#<%= statesID %>").spark_template('./states_for_character.rq', {endpoint:config.endpoint, format:"/scripts/underscore.template_each.js", param:{partial:"./_character_state.html"}}, {character:"<%= character.value %>", limit:20});
+$("#<%= conceptsID %>").spark_template('./concepts_for_character.rq', {endpoint:config.endpoint, format:"/scripts/underscore.template_each.js", param:{partial:"./_character_concept.html"}}, {character:"<%= character.value %>"});
+
 </script>

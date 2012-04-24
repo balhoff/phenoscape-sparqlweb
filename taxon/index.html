@@ -3,15 +3,13 @@
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 	<title>Taxon « Phenoscape Knowledgebase</title>
-	<!-- Date: 2012-03-27 -->
+	<script src="/config/config.js"></script>
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.4.4/jquery.min.js"></script>
 	<script src="http://documentcloud.github.com/underscore/underscore-min.js"></script>
 	<script src="/scripts/jquery.spark.js"></script>
 	<script src="/scripts/purl.js"></script>
 	<script src="/scripts/partials.js"></script>
-	<style type="text/css">
-a {display: block;}
-	</style>
+	<link href="/style/main.css" media="screen" rel="stylesheet" type="text/css">
 </head>
 <body>
 <div id="header"></div>
@@ -24,7 +22,7 @@ Loading...
 $(document).ready(function() {
 	$("#header").load_partial('/shared/_header.html', {}, null);
 	$("#footer").load_partial('/shared/_footer.html', {}, null);
-	$("#taxon_detail").spark_template('./taxon_detail.rq', {endpoint:"http://kb-dev.phenoscape.org/sparql", format:"/scripts/underscore.template_each.js", param:{partial:"./_taxon_label.html"}}, {iri: purl().param('iri')});
+	$("#taxon_detail").spark_template('./taxon_detail.rq', {endpoint:config.endpoint, format:"/scripts/underscore.template_each.js", param:{partial:"./_taxon_label.html"}}, {iri: purl().param('iri')});
 	});
 </script>
 </html>

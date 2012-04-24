@@ -1,3 +1,6 @@
+body {font-family: Helvetica;}
 img.spinner {height: 1em;}
 .search-field {width: 60%;}
 a.block {display: block;}
+.character-description {font-family: serif;}
+a.character-concept {margin: 1em; font-size: small;}

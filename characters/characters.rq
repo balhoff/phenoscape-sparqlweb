@@ -7,11 +7,16 @@ WHERE
 { 
 ?character rdf:type cdao:StandardCharacter . 
 ?character rdfs:label ?character_label .
+?character dc:description ?character_desc .
 <% if (text) { %>
-?character_label bif:contains '"<%= text %>"' .
+?character_desc bif:contains '"<%= text %>"' option(score ?sc).
 <% } %>
 } 
 
+<% if (text) { %>
+ORDER BY desc(?sc)
+<% } else { %>
 ORDER BY <%= desc ? 'desc(?character_label)' : '?character_label' %>
+<% } %>
 LIMIT <%= limit %>
 OFFSET <%= offset %>
