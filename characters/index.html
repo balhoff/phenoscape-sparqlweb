@@ -7,7 +7,6 @@
 	<script src="/config/config.js"></script>
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.4.4/jquery.min.js"></script>
 	<script src="http://documentcloud.github.com/underscore/underscore-min.js"></script>
-	<script src="/scripts/jquery.spark.js"></script>
 	<script src="/scripts/jquery.rdfquery.core-1.0.js"></script>
 	<script src="/scripts/purl.js"></script>
 	<script src="/scripts/partials.js"></script>
@@ -30,12 +29,10 @@ Loading...
 </body>
 <script>
 $(document).ready(function() {
-	$("#header").load_partial('../shared/_header.html', {}, null);
-	$("#footer").load_partial('../shared/_footer.html', {}, null);
+	partials.load_partial("#header", "../shared/_header.html", {});
+	partials.load_partial("#footer", "../shared/_footer.html", {});
 	var offset = purl().param('offset');
 	var text = purl().param('text');
-	// $("#characters").spark_template('./characters.rq', {endpoint:config.endpoint, format:"/scripts/underscore.template_each.js", param:{partial:"./_character.html"}, result:"table"}, {limit:20, desc:(purl().param('desc') == 'true'), offset:(offset ? offset : 0), text:text});
-	// 	});
 	partials.render_template("./characters.rq", {limit:20, desc:(purl().param('desc') == 'true'), offset:(offset ? offset : 0), text:text}, function (query) { 
 		sparql.select(query, config.endpoint, function (sparql_json) {			
 				partials.load_partial_each("#characters", "./_character.html", sparql_json.results.bindings);
