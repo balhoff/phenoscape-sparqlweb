@@ -1,1 +1,19 @@
+<% var annotationID = nextID() %>
+<% var viewAnnotationID = nextID() %>
+
 <p class="character-description"><%= state_label.value %></p>
+<div id="<%= annotationID %>">
+	<button id="<%= viewAnnotationID %>">View ontology annotation</button>
+</div>
+
+<script>
+jQuery("#<%= viewAnnotationID %>").click(function (event) {
+	partials.render_template("./annotation_for_state.rq", {character:"<%= state.value %>"}, function (query) {
+		sparql.construct(query, config.endpoint, function (rdf) { 
+			sparql.decorate(rdf, ["http://www.w3.org/2000/01/rdf-schema#label"], config.endpoint, function (rdf) { 
+				partials.load_partial("#<%= annotationID %>", "./_state_annotation.html", {rdf: rdf});
+			 });
+		}); 
+	});
+});
+</script>

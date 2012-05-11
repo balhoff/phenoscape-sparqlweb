@@ -8,9 +8,11 @@
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.4.4/jquery.min.js"></script>
 	<script src="http://documentcloud.github.com/underscore/underscore-min.js"></script>
 	<script src="/scripts/jquery.spark.js"></script>
+	<script src="/scripts/jquery.rdfquery.core-1.0.js"></script>
 	<script src="/scripts/purl.js"></script>
 	<script src="/scripts/partials.js"></script>
 	<script src="/scripts/sparql.js"></script>
+	<script src="/scripts/class_expressions.js"></script>
 	<link href="/style/main.css" media="screen" rel="stylesheet" type="text/css" />
 </head>
 <body>
@@ -23,6 +25,7 @@
 <div id="characters">
 Loading...
 </div>
+<div id="queries"><button id="view_sparql">View SPARQL queries used in this page.</button></div>
 <div id="footer"></div>
 </body>
 <script>
@@ -37,6 +40,9 @@ $(document).ready(function() {
 		sparql.select(query, config.endpoint, function (sparql_json) {			
 				partials.load_partial_each("#characters", "./_character.html", sparql_json.results.bindings);
 		}); 
+	});
+	jQuery("#view_sparql").click(function (event) {
+		partials.load_partial_each("#queries", "/shared/_sparql_query.html", sparql.queries);
 	});
 });
 </script>

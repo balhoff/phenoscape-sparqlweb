@@ -3,10 +3,10 @@
 <a class="block" href="../taxon?iri=<%=  taxon.value %>"><%= taxon_label.value %></a>
 
 <div id="<%= otusID %>">
-Counting otus...
+	<img class="spinner" src="/images/rotation.gif">
 </div>
 <br>
 
 <script>
-$("#<%= otusID %>").spark_template('./taxon_otu_count.rq', {endpoint:config.endpoint, format:"/scripts/underscore.template_each.js", param:{partial:"./_taxon_otu_count.html"}}, {taxon:"<%= taxon.value %>"});
+sparql_partials.load_partial_with_select("#<%= otusID %>", "./_taxon_otu_count.html", "./taxon_otu_count.rq", config.endpoint, {taxon:"<%= taxon.value %>"});
 </script>

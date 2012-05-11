@@ -1,6 +1,10 @@
 var sparql = {
+	
+	queries: [],
 
 	select: function (query, endpoint, callback) {
+		
+		sparql.queries.push({query: query});
 		
 		jQuery.ajaxSetup({ 
 			  beforeSend: function (xhr) { xhr.setRequestHeader("Accept", "application/sparql-results+json"); } 
@@ -17,6 +21,8 @@ var sparql = {
 	},
 	
 	construct: function (query, endpoint, callback) {
+		
+		sparql.queries.push({query: query});
 		
 		var responder = function (response) {
 			var rdf = jQuery.rdf();

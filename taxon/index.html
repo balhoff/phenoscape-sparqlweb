@@ -9,20 +9,22 @@
 	<script src="/scripts/jquery.spark.js"></script>
 	<script src="/scripts/purl.js"></script>
 	<script src="/scripts/partials.js"></script>
+	<script src="/scripts/sparql.js"></script>
+	<script src="/scripts/sparql_partials.js"></script>
 	<link href="/style/main.css" media="screen" rel="stylesheet" type="text/css">
 </head>
 <body>
 <div id="header"></div>
 <div id="taxon_detail">
-Loading...
+	<img class="spinner" src="/images/rotation.gif">
 </div>
 <div id="footer"></div>
 </body>
 <script>
-$(document).ready(function() {
-	$("#header").load_partial('/shared/_header.html', {}, null);
-	$("#footer").load_partial('/shared/_footer.html', {}, null);
-	$("#taxon_detail").spark_template('./taxon_detail.rq', {endpoint:config.endpoint, format:"/scripts/underscore.template_each.js", param:{partial:"./_taxon_label.html"}}, {iri: purl().param('iri')});
-	});
+$(document).ready(function() {	
+	partials.load_partial("#header", "../shared/_header.html", {});
+	partials.load_partial("#footer", "../shared/_footer.html", {});
+	sparql_partials.load_partial_with_select("#taxon_detail", "./_taxon_label.html", "./taxon_detail.rq", config.endpoint, {iri: purl().param('iri')});
+});
 </script>
 </html>

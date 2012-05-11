@@ -9,21 +9,23 @@
 	<script src="/scripts/jquery.spark.js"></script>
 	<script src="/scripts/purl.js"></script>
 	<script src="/scripts/partials.js"></script>
+	<script src="/scripts/sparql.js"></script>
+	<script src="/scripts/sparql_partials.js"></script>
 	<link href="/style/main.css" media="screen" rel="stylesheet" type="text/css">
 </head>
 <body>
 <div id="header"></div>
 <div id="taxa">
-Loading...
+	<img class="spinner" src="/images/rotation.gif">
 </div>
 <div id="footer"></div>
 </body>
 <script>
 $(document).ready(function() {
-	$("#header").load_partial('../shared/_header.html', {}, null);
-	$("#footer").load_partial('../shared/_footer.html', {}, null);
+	partials.load_partial("#header", "../shared/_header.html", {});
+	partials.load_partial("#footer", "../shared/_footer.html", {});
 	var offset = purl().param('offset');
-	$("#taxa").spark_template('./taxa.rq', {endpoint:config.endpoint, format:"/scripts/underscore.template_each.js", param:{partial:"./_taxon.html"}}, {limit:20, desc:(purl().param('desc') == 'true'), offset:(offset ? offset : 0)});
-	});
+	sparql_partials.load_partial_with_select("#taxa", "./_taxon.html", "./taxa.rq", config.endpoint, {limit:20, desc:(purl().param('desc') == 'true'), offset:(offset ? offset : 0)});	
+});
 </script>
 </html>

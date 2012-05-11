@@ -9,6 +9,8 @@
 	<script src="/scripts/jquery.spark.js"></script>
 	<script src="/scripts/purl.js"></script>
 	<script src="/scripts/partials.js"></script>
+	<script src="/scripts/sparql.js"></script>
+	<script src="/scripts/sparql_partials.js"></script>
 	<link href="/style/main.css" media="screen" rel="stylesheet" type="text/css">
 </head>
 <body>
@@ -27,16 +29,24 @@
 	</tbody>
 </table>
 <div id="footer"></div>
+<div id="queries"><button id="view_sparql">View SPARQL queries used in this page.</button></div>
 </body>
 
 <script>
 $(document).ready(function() {
-	$("#header").load_partial('../shared/_header.html', {}, null);
-	$("#footer").load_partial('../shared/_footer.html', {}, null);
-	$("#character_count").spark_template('/shared/count_characters.rq', {endpoint:config.endpoint, format:"/scripts/underscore.template_each.js", param:{partial:"/shared/_count.html"}}, {});
-	$("#taxon_count").spark_template('/shared/count_annotated_taxa.rq', {endpoint:config.endpoint, format:"/scripts/underscore.template_each.js", param:{partial:"/shared/_count.html"}}, {});
-	$("#ontologies").spark_template('/ontologies/ontologies.rq', {endpoint:config.endpoint, format:"/scripts/underscore.template_each.js", param:{partial:"/ontologies/_ontology.html"}}, {});
+	partials.load_partial("#header", "../shared/_header.html", {});
+	partials.load_partial("#footer", "../shared/_footer.html", {});
+	jQuery.get("/shared/count_characters.rq", function (query) { 
+		sparql.select(query, config.endpoint, function (sparql_json) {			
+				partials.load_partial_each("#character_count", "/shared/_count.html", sparql_json.results.bindings);
+		}); 
 	});
+	sparql_partials.load_partial_with_select("#taxon_count", "/shared/_count.html", "/shared/count_annotated_taxa.rq", config.endpoint, {});
+	sparql_partials.load_partial_with_select("#ontologies", "/ontologies/_ontology.html", "/ontologies/ontologies.rq", config.endpoint, {});
+	jQuery("#view_sparql").click(function (event) {
+		partials.load_partial_each("#queries", "/shared/_sparql_query.html", sparql.queries);
+	});
+});
 </script>
 
 </html>
