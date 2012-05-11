@@ -1,6 +1,12 @@
+<% var otusID = nextID() %>
+
 <a class="block" href="../taxon?iri=<%=  taxon.value %>"><%= taxon_label.value %></a>
 
-<div class="spark" data-spark-endpoint="http://kb-dev.phenoscape.org/sparql" data-spark-query="select count(distinct ?otu) as ?otu_count where { ?otu <http://www.evolutionaryontology.org/cdao/1.0/cdao.owl#has_External_Reference> <<%= taxon.value %>> . }" data-spark-format="/scripts/underscore.template_each.js" data-spark-param-partial="./_taxon_otu_count.html">
+<div id="<%= otusID %>">
 Counting otus...
 </div>
 <br>
+
+<script>
+$("#<%= otusID %>").spark_template('./taxon_otu_count.rq', {endpoint:config.endpoint, format:"/scripts/underscore.template_each.js", param:{partial:"./_taxon_otu_count.html"}}, {taxon:"<%= taxon.value %>"});
+</script>

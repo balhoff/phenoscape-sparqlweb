@@ -11,5 +11,4 @@
 <script>
 $("#<%= statesID %>").spark_template('./states_for_character.rq', {endpoint:config.endpoint, format:"/scripts/underscore.template_each.js", param:{partial:"./_character_state.html"}}, {character:"<%= character.value %>", limit:20});
 $("#<%= conceptsID %>").spark_template('./concepts_for_character.rq', {endpoint:config.endpoint, format:"/scripts/underscore.template_each.js", param:{partial:"./_character_concept.html"}}, {character:"<%= character.value %>"});
-
 </script>

@@ -3,7 +3,7 @@
 		var partial = params.param.partial;
 		$.get(partial, function(template) {
 			var compiled = _.template(template);
-			element.html(compiled(reduced));
+			element.html(compiled({sparql: result, context: params.param}));
 		});
 	};
 })(jQuery);

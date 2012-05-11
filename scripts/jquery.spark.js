@@ -33,7 +33,6 @@
 
 (function($){
 	$.fn.spark = function( options ) {
-		
 		var defaults = {
 			'endpoint'	: 'http://qcrumb.com/sparql',
 			'format'	: 'simple',
@@ -50,7 +49,8 @@
 				'dbpprop'		: 'http://dbpedia.org/property/',
 				'geo'			: 'http://www.w3.org/2003/01/geo/wgs84_pos#',
 				'dc'			: 'http://purl.org/dc/terms/'
-			}
+			},
+			'result'	: 'table' // or 'rdf'
 		};
 		
 		// if the parameter is just a string, assume it is the query string
@@ -63,7 +63,6 @@
 		
 		var sparqljson = function(index, element) {
 			var $this = $(element);
-			
 			var request = {}; // { accept : 'application/sparql-results+json' };
 			
 			request.query = '';
@@ -78,17 +77,30 @@
 				request.query = request.query.replace(/\sWHERE(\s)*\{/i, froms + '\nWHERE {');
 			}
 			
+			var tableResult = (settings.result == 'table');
+			
 			// TODO what to do if XML is returned instead of JSON?
 			// TODO how to handle failures?
 			var responder = function(response) {
-				format($this, response, reducer(response), settings);
+				if (tableResult) {
+					format($this, response, reducer(response), settings);					
+				} else {
+					var rdf = jQuery.rdf();
+					rdf.load(response);
+					format($this, rdf, null, settings);
+				}
+
 			};
 			
 			//$.getJSON(settings.endpoint, request, responder);
 			
 			$.ajaxSetup({ 
 				  'beforeSend': function(xhr) {
-				        xhr.setRequestHeader("Accept", "application/sparql-results+json");
+						if (tableResult) {
+				        	xhr.setRequestHeader("Accept", "application/sparql-results+json");							
+						} else {
+							xhr.setRequestHeader("Accept", "application/rdf+xml");							
+						}
 				   } 
 			});
 			
@@ -96,7 +108,7 @@
 				url : settings.endpoint,
 				type : 'GET',
 				data : request,
-				dataType : 'json',
+				dataType : (tableResult ? 'json' : 'xml'),
 				success : responder,
 				error : function() { } // TODO
 			});

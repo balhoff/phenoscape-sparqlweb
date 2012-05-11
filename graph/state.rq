@@ -1,0 +1,11 @@
+DEFINE sql:describe-mode "CBD"
+describe ?phenotype ?expression
+from <http://kb.phenoscape.org/>
+where
+{
+<http://kb.phenoscape.org/uuid/41d9c495-a2fd-404d-b11b-e3e08436793d-1136> rdf:type ?type .
+?type rdf:type owl:Restriction .
+?type owl:onProperty <http://purl.obolibrary.org/obo/IAO_0000219> .
+?type owl:allValuesFrom ?phenotype .
+?phenotype owl:equivalentClass ?expression .
+}

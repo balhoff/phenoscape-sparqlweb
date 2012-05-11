@@ -10,6 +10,7 @@
 	<script src="/scripts/jquery.spark.js"></script>
 	<script src="/scripts/purl.js"></script>
 	<script src="/scripts/partials.js"></script>
+	<script src="/scripts/sparql.js"></script>
 	<link href="/style/main.css" media="screen" rel="stylesheet" type="text/css" />
 </head>
 <body>
@@ -30,7 +31,13 @@ $(document).ready(function() {
 	$("#footer").load_partial('../shared/_footer.html', {}, null);
 	var offset = purl().param('offset');
 	var text = purl().param('text');
-	$("#characters").spark_template('./characters.rq', {endpoint:config.endpoint, format:"/scripts/underscore.template_each.js", param:{partial:"./_character.html"}}, {limit:20, desc:(purl().param('desc') == 'true'), offset:(offset ? offset : 0), text:text});
+	// $("#characters").spark_template('./characters.rq', {endpoint:config.endpoint, format:"/scripts/underscore.template_each.js", param:{partial:"./_character.html"}, result:"table"}, {limit:20, desc:(purl().param('desc') == 'true'), offset:(offset ? offset : 0), text:text});
+	// 	});
+	partials.render_template("./characters.rq", {limit:20, desc:(purl().param('desc') == 'true'), offset:(offset ? offset : 0), text:text}, function (query) { 
+		sparql.select(query, config.endpoint, function (sparql_json) {			
+				partials.load_partial_each("#characters", "./_character.html", sparql_json.results.bindings);
+		}); 
 	});
+});
 </script>
 </html>
