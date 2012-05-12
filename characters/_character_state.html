@@ -7,7 +7,8 @@
 </div>
 
 <script>
-jQuery("#<%= viewAnnotationID %>").click(function (event) {
+$("#<%= viewAnnotationID %>").click(function (event) {
+	$("#<%= annotationID %>").html('<img class="spinner" src="/images/rotation.gif">');
 	partials.render_template("./annotation_for_state.rq", {character:"<%= state.value %>"}, function (query) {
 		sparql.construct(query, config.endpoint, function (rdf) { 
 			sparql.decorate(rdf, ["http://www.w3.org/2000/01/rdf-schema#label"], config.endpoint, function (rdf) { 
