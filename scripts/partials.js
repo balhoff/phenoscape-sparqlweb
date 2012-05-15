@@ -1,10 +1,11 @@
-var uniqueIDIncrementer = 0;
-function nextID() {
-	uniqueIDIncrementer += 1;
-	return "id" + uniqueIDIncrementer;
-}
-
 var partials = {
+	
+	uniqueIDIncrementer: 0,
+	
+	nextID: function () {
+		partials.uniqueIDIncrementer += 1;
+		return "id" + partials.uniqueIDIncrementer;
+	},
 	
 	compile_template: function (template_url, callback) {
 		jQuery.get(template_url, function (template) {
