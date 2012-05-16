@@ -1,5 +1,0 @@
-<% sparql.prefix("rdf", "http://www.w3.org/1999/02/22-rdf-syntax-ns#") %>
-<% sparql.prefix("rdfs", "http://www.w3.org/2000/01/rdf-schema#") %>
-<% sparql.prefix("owl", "http://www.w3.org/2002/07/owl#") %>
-
-<p><%= owl.class_expression(sparql.where("?p owl:equivalentClass ?restriction").filter(function () { return this.restriction.type === "bnode"; }).select(["restriction"]).pop()["restriction"], sparql).html_manchester_syntax() %></p>

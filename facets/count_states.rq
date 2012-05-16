@@ -1,0 +1,21 @@
+prefix obo: <http://purl.obolibrary.org/obo/>
+prefix partof: <http://purl.obolibrary.org/obo/BFO_0000050_some_>
+prefix ps: <http://vocab.phenoscape.org/>
+
+select count(distinct ?state) as ?count
+from <http://kb.phenoscape.org/>
+from <http://kb.phenoscape.org/closure>
+where
+{
+?state ps:denotes_exemplar ?exemplar .
+?exemplar obo:BFO_0000051 ?part .
+<% if (entity) { %>
+?part rdf:type ?entity . 
+?entity rdfs:subClassOf <<%= sparql_util.partof_iri(entity) %>> .
+<% } %>
+<% if (quality) { %>
+?part obo:BFO_0000053 ?qual .
+?qual rdf:type ?quality .
+?quality rdfs:subClassOf <<% quality %>> .
+<% } %>
+}

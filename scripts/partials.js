@@ -35,6 +35,7 @@ var partials = {
 				html += compiled(item);
 			});
 			jQuery(container).html(html);
+			if (callback) { callback(); };
 		});	
 	}
 

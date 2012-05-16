@@ -1,0 +1,7 @@
+select distinct ?subclass
+from <http://kb.phenoscape.org/>
+where
+{
+?subclass rdfs:subClassOf <<%= superclass %>> .
+?subclass rdfs:label ?label .
+}

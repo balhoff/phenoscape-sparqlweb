@@ -5,13 +5,16 @@
 	<title>Characters « Phenoscape Knowledgebase</title>
 	<!-- Date: 2012-03-27 -->
 	<script src="/config/config.js"></script>
-	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.4.4/jquery.min.js"></script>
+	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
 	<script src="http://documentcloud.github.com/underscore/underscore-min.js"></script>
 	<script src="/scripts/jquery.rdfquery.core-1.0.js"></script>
 	<script src="/scripts/purl.js"></script>
 	<script src="/scripts/partials.js"></script>
 	<script src="/scripts/sparql.js"></script>
+	<script src="/scripts/sparql_partials.js"></script>
 	<script src="/scripts/class_expressions.js"></script>
+	<script src="/scripts/facets.js"></script>
+	<script src="/scripts/sparql_util.js"></script>
 	<link href="/style/main.css" media="screen" rel="stylesheet" type="text/css" />
 </head>
 <body>
@@ -20,6 +23,12 @@
 	<form>
 		<input name="text" class="search-field"></text><input type="submit" value="Search characters">
 	</form>
+</div>
+<div id="facets">
+	<div id="entity_facet">
+	</div>
+	<div id="quality_facet">
+	</div>
 </div>
 <div id="characters">
 Loading...
@@ -33,6 +42,16 @@ $(document).ready(function() {
 	partials.load_partial("#footer", "../shared/_footer.html", {});
 	var offset = purl().param('offset');
 	var text = purl().param('text');
+	var encoded_facets = purl().param("facets");
+	var facet_paths = {entity: [], quality: []};
+	if (encoded_facets) {
+		facet_paths = JSON.parse(decodeURIComponent(encoded_facets));
+	}
+	partials.compile_template("/facets/count_states.rq", function (compiled_template) {
+		partials.load_partial_each("#entity_facet", "/facets/_facet_item.html", _.map(facet_paths.entity, function (item) { return {iri: item};}), function () {
+			facets.fill_facet("#entity_facet", "entity", facet_paths, compiled_template);
+		});
+	});
 	partials.render_template("./characters.rq", {limit:20, desc:(purl().param('desc') == 'true'), offset:(offset ? offset : 0), text:text}, function (query) { 
 		sparql.select(query, config.endpoint, function (sparql_json) {			
 				partials.load_partial_each("#characters", "./_character.html", sparql_json.results.bindings);
