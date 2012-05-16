@@ -16,6 +16,6 @@ where
 <% if (quality) { %>
 ?part obo:BFO_0000053 ?qual .
 ?qual rdf:type ?quality .
-?quality rdfs:subClassOf <<% quality %>> .
+?quality rdfs:subClassOf <<%= quality %>> .
 <% } %>
 }
