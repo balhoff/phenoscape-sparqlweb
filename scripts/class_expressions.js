@@ -9,7 +9,7 @@ var owl = {
 			var items = items || [];
 			items.push(rdf.where(listnode + " rdf:first ?item").select(["item"]).pop().item);
 			var rest = rdf.where(listnode + " rdf:rest ?rest").select(["rest"]).pop().rest;
-			if (rest == jQuery.rdf.nil) {
+			if (rest === jQuery.rdf.nil) {
 				return items;
 			} else {
 				return list(rest, items);
@@ -76,7 +76,7 @@ var owl = {
 			owltype: "ClassExpression"
 		};
 		
-		if (node.type == "uri") {
+		if (node.type === "uri") {
 			return named_class(owl_class);
 		} else if (rdf.where(node + " rdf:type owl:Restriction").length > 0) {
 			return restriction(owl_class);

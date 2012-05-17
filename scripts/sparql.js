@@ -49,9 +49,9 @@ var sparql = {
 		var template = "construct { ?s ?p ?o } where { ?s ?p ?o . filter (?s in (<%= subjects.join(', ') %>)) filter (?p in (<%= properties.join(', ') %>))}";
 		var resources = [];
 		rdf.databank.triples().each(function (index, triple) {
-			if (triple.subject.type == "uri") { resources.push(triple.subject.value); }
-			if (triple.property.type == "uri") { resources.push(triple.property.value); }
-			if (triple.object.type == "uri") { resources.push(triple.object.value); }
+			if (triple.subject.type === "uri") { resources.push(triple.subject.value); }
+			if (triple.property.type === "uri") { resources.push(triple.property.value); }
+			if (triple.object.type === "uri") { resources.push(triple.object.value); }
 		});
 		var uris = _.uniq(resources).map(function (uri) { return angle(uri) });
 		var compiled = _.template(template);
