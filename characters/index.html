@@ -25,9 +25,9 @@
 	</form>
 </div>
 <div id="facets">
-	<div id="entity_facet">
+	<div id="entity_facet" class="facet">
 	</div>
-	<div id="quality_facet">
+	<div id="quality_facet" class="facet">
 	</div>
 </div>
 <div id="characters">
@@ -47,11 +47,8 @@ $(document).ready(function() {
 	if (encoded_facets) {
 		facet_paths = JSON.parse(decodeURIComponent(encoded_facets));
 	}
-	partials.compile_template("/facets/count_states.rq", function (compiled_template) {
-		partials.load_partial_each("#entity_facet", "/facets/_facet_item.html", _.map(facet_paths.entity, function (item) { return {iri: item};}), function () {
-			facets.fill_facet("#entity_facet", "entity", facet_paths, compiled_template);
-		});
-	});
+	facets.fill_facet("#entity_facet", "entity", facet_paths, "/facets/count_states.rq");
+	facets.fill_facet("#quality_facet", "quality", facet_paths, "/facets/count_states.rq");
 	partials.render_template("./characters.rq", {limit:20, desc:(purl().param('desc') == 'true'), offset:(offset ? offset : 0), text:text}, function (query) { 
 		sparql.select(query, config.endpoint, function (sparql_json) {			
 				partials.load_partial_each("#characters", "./_character.html", sparql_json.results.bindings);
