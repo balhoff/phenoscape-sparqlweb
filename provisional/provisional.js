@@ -13,7 +13,7 @@ function reload_table(callback) {
 
 function delete_term(iri) {
 	if (confirm("Are you sure you want to delete " + iri + "?")) {
-		$.ajax("/bioportal/provisional?apikey=" + bioportal_apikey + "&termid=" + iri, {type: "DELETE", success: function () { alert("Successfully deleted " + iri); reload_table(); }, error: function () { alert("Failed to delete " + iri); }});
+		$.ajax("/bioportal/provisional?apikey=" + bioportal_apikey + "&termid=" + iri, {type: "DELETE", success: function () { alert("Successfully deleted " + iri); reload_table(add_labels_to_term_links); }, error: function () { alert("Failed to delete " + iri); }});
 	}
 }
 
@@ -26,7 +26,7 @@ function insert_permanent_id_editor(td) {
 }
 
 function update_permanent_id(provisional_iri, permanent_iri, callback) {
-	$.ajax("/bioportal/provisional?apikey=" + bioportal_apikey + "&termid=" + provisional_iri + "&permanentid=" + permanent_iri, {type: "PUT", success: function () { alert("Successfully updated " + provisional_iri); reload_table(); }, error: function () { alert("Failed to update " + provisional_iri); }});
+	$.ajax("/bioportal/provisional?apikey=" + bioportal_apikey + "&termid=" + provisional_iri + "&permanentid=" + permanent_iri, {type: "PUT", success: function () { alert("Successfully updated " + provisional_iri); reload_table(add_labels_to_term_links); }, error: function () { alert("Failed to update " + provisional_iri); }});
 }
 
 function add_labels_to_term_links() {
