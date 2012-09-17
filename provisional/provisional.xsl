@@ -3,7 +3,6 @@
     <xsl:output method="html" indent="yes"/>
     
     <xsl:template match="/">
-        <h3>Page <xsl:value-of select="//page/pageNum"/> of <xsl:value-of select="//page/numPages"/></h3>
         <table>
             <thead>
                 <tr><th>Submitted</th><th>Provisional IRI</th><th>Label</th><th>Description</th><th>Parent</th><th>Permanent IRI</th><th class="deleter"></th></tr>
