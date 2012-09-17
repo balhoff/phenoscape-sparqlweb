@@ -1,4 +1,4 @@
-select count(distinct ?otu) as ?otu_count 
+select (count(distinct ?otu) as ?otu_count)
 where 
 { 
 ?otu <http://www.evolutionaryontology.org/cdao/1.0/cdao.owl#has_External_Reference> <<%= taxon %>> . 

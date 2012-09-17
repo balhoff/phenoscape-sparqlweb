@@ -2,20 +2,19 @@ prefix obo: <http://purl.obolibrary.org/obo/>
 PREFIX ps: <http://vocab.phenoscape.org/> 
 PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> 
 PREFIX cdao: <http://www.evolutionaryontology.org/cdao/1.0/cdao.owl#>
-SELECT distinct ?character ?character_label ?state ?state_label
+PREFIX bd: <http://www.bigdata.com/rdf/search#>
+SELECT distinct ?state ?state_label
 FROM <http://kb.phenoscape.org/>
 FROM <http://kb.phenoscape.org/closure>
 WHERE 
 { 
-# this query will need to be changed to search for states, using a concatenated character:state label value
-?character rdfs:label ?character_label .
-# ?character dc:description ?character_desc .
-<% if (text) { %>
-?character_label bif:contains '"<%= text %>"' option(score ?sc).
-<% } %>
+?state rdf:type cdao:Standard .
 ?state rdfs:label ?state_label .
-?cell cdao:has_State ?state .
-?cell cdao:belongs_to_Character ?character .
+# this query will need to be changed to search for states, using a concatenated character:state label value
+# ?state dc:description ?state_desc .
+<% if (text) { %>
+?state_label bd:search "<%= text %>" .
+<% } %>
 <% if (entity || quality) { %>
 	?state ps:denotes_exemplar ?exemplar .
 	?exemplar obo:BFO_0000051 ?part .
@@ -31,10 +30,10 @@ WHERE
 <% } %>
 } 
 
-<% if (text) { %>
+<% if (false && text) { //intentionally disabled %>
 ORDER BY desc(?sc)
 <% } else { %>
-ORDER BY <%= desc ? 'desc(?character_label)' : '?character_label' %>
+ORDER BY <%= desc ? 'desc(?state_label)' : '?state_label' %>
 <% } %>
 LIMIT <%= limit %>
 OFFSET <%= offset %>

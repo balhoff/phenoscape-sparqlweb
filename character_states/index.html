@@ -2,8 +2,7 @@
 <html lang="en">
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-	<title>Characters « Phenoscape Knowledgebase</title>
-	<!-- Date: 2012-03-27 -->
+	<title>Character States « Phenoscape Knowledgebase</title>
 	<script src="/config/config.js"></script>
 	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
 	<script src="http://documentcloud.github.com/underscore/underscore-min.js"></script>
@@ -30,7 +29,7 @@
 	<div id="quality_facet" class="facet">
 	</div>
 </div>
-<div id="characters">
+<div id="states">
 Loading...
 </div>
 <div id="queries"><button id="view_sparql">View SPARQL queries used in this page.</button></div>
@@ -50,9 +49,9 @@ $(document).ready(function() {
 	var facet_params = facets.extract_query_parameters(facet_paths);
 	facets.fill_facet("#entity_facet", "entity", facet_paths, text, "/facets/count_states.rq");
 	facets.fill_facet("#quality_facet", "quality", facet_paths, text, "/facets/count_states.rq");
-	partials.render_template("./characters.rq", {limit:20, desc:(purl().param('desc') == 'true'), offset:(offset ? offset : 0), text: text, entity: facet_params["entity"], quality: facet_params["quality"]}, function (query) { 
+	partials.render_template("./states.rq", {limit:20, desc:(purl().param('desc') == 'true'), offset:(offset ? offset : 0), text: text, entity: facet_params["entity"], quality: facet_params["quality"]}, function (query) { 
 		sparql.select(query, config.endpoint, function (sparql_json) {			
-				partials.load_partial_each("#characters", "./_character.html", sparql_json.results.bindings);
+				partials.load_partial_each("#states", "./_state.html", sparql_json.results.bindings);
 		}); 
 	});
 	jQuery("#view_sparql").click(function (event) {

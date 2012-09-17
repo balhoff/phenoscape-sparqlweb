@@ -1,0 +1,22 @@
+<% var characterID = partials.nextID() %>
+<% var statesID = partials.nextID() %>
+<% var conceptsID = partials.nextID() %>
+
+<p class="character-description"><span id="<%= characterID %>"><img class="spinner" src="/images/rotation.gif"></span>: <span><%= state_label.value %></span></p>
+<div class="character-concepts" id="<%= conceptsID %>">
+	<img class="spinner" src="/images/rotation.gif">
+</div>
+
+
+<script>
+partials.render_template("./character_for_state.rq", {state:"<%= state.value %>"}, function (query) { 
+	sparql.select(query, config.endpoint, function (sparql_json) {			
+			partials.load_partial_each("#<%= characterID %>", "./_character.html", sparql_json.results.bindings);
+	}); 
+});
+partials.render_template("./concepts_for_state.rq", {state:"<%= state.value %>"}, function (query) { 
+	sparql.select(query, config.endpoint, function (sparql_json) {			
+			partials.load_partial_each("#<%= conceptsID %>", "./_state_concept.html", sparql_json.results.bindings);
+	}); 
+});
+</script>

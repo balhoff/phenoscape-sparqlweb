@@ -3,11 +3,11 @@ PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
 PREFIX obo: <http://purl.obolibrary.org/obo/>
 PREFIX cdao: <http://www.evolutionaryontology.org/cdao/1.0/cdao.owl#>
 
-SELECT count(distinct ?taxon) as ?count
+SELECT (count(distinct ?taxon) as ?count)
 FROM <http://kb.phenoscape.org/> 
 WHERE 
 { 
 ?otu rdf:type cdao:TU .
 ?otu cdao:has_External_Reference ?taxon .
-?cell cdao:belongs_to_TU ?otu .
+FILTER EXISTS {?cell cdao:belongs_to_TU ?otu .}
 } 
