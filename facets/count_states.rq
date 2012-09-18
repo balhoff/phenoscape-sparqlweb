@@ -1,16 +1,17 @@
-prefix obo: <http://purl.obolibrary.org/obo/>
-prefix partof: <http://purl.obolibrary.org/obo/BFO_0000050_some_>
-prefix ps: <http://vocab.phenoscape.org/>
+PREFIX obo: <http://purl.obolibrary.org/obo/>
+PREFIX partof: <http://purl.obolibrary.org/obo/BFO_0000050_some_>
+PREFIX ps: <http://vocab.phenoscape.org/>
 PREFIX cdao: <http://www.evolutionaryontology.org/cdao/1.0/cdao.owl#>
+PREFIX bd: <http://www.bigdata.com/rdf/search#>
 
-select (count(distinct ?state) as ?count)
-from <http://kb.phenoscape.org/>
-from <http://kb.phenoscape.org/closure>
-where
+SELECT (count(distinct ?state) as ?count)
+FROM <http://kb.phenoscape.org/>
+FROM <http://kb.phenoscape.org/closure>
+WHERE
 {
 <% if (text) { %>
 ?state rdfs:label ?state_label .
-?state_label bif:contains '"<%= text %>"' .
+?state_label bd:search "<%= text %>" .
 <% } %>
 ?state ps:denotes_exemplar ?exemplar .
 ?exemplar obo:BFO_0000051 ?part .

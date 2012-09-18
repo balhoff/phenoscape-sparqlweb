@@ -1,10 +1,15 @@
 <% var characterID = partials.nextID() %>
 <% var statesID = partials.nextID() %>
 <% var conceptsID = partials.nextID() %>
+<% var annotationID = partials.nextID() %>
+<% var viewAnnotationID = partials.nextID() %>
 
 <p class="character-description"><span id="<%= characterID %>"><img class="spinner" src="/images/rotation.gif"></span>: <span><%= state_label.value %></span></p>
 <div class="character-concepts" id="<%= conceptsID %>">
 	<img class="spinner" src="/images/rotation.gif">
+</div>
+<div id="<%= annotationID %>">
+	<button id="<%= viewAnnotationID %>">View ontology annotation</button>
 </div>
 
 
@@ -18,5 +23,15 @@ partials.render_template("./concepts_for_state.rq", {state:"<%= state.value %>"}
 	sparql.select(query, config.endpoint, function (sparql_json) {			
 			partials.load_partial_each("#<%= conceptsID %>", "./_state_concept.html", sparql_json.results.bindings);
 	}); 
+});
+$("#<%= viewAnnotationID %>").click(function (event) {
+	$("#<%= annotationID %>").html('<img class="spinner" src="/images/rotation.gif">');
+	partials.render_template("./annotation_for_state.rq", {state:"<%= state.value %>"}, function (query) {
+		sparql.construct(query, config.endpoint, function (rdf) { 
+			sparql.decorate(rdf, ["http://www.w3.org/2000/01/rdf-schema#label"], config.endpoint, function (rdf) { 
+				partials.load_partial("#<%= annotationID %>", "./_state_annotation.html", {rdf: rdf});
+			 });
+		}); 
+	});
 });
 </script>

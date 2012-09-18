@@ -6,6 +6,9 @@ function reload_table(callback) {
 			xsltProcessor.importStylesheet(xslt);
 			var html_data = xsltProcessor.transformToFragment(data, document);
 			$("#content").html(html_data);
+			$("#content .sortable").each(function (index, element) {
+			    sorttable.makeSortable(element);
+			});
 			callback();
 		});
 	});

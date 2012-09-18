@@ -1,0 +1,13 @@
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> 
+PREFIX owl: <http://www.w3.org/2002/07/owl#>
+DESCRIBE ?phenotype ?expression
+FROM <http://kb.phenoscape.org/>
+WHERE
+{
+hint:Query hint:describeMode "CBD" .
+<<%= state %>> rdf:type ?type .
+?type rdf:type owl:Restriction .
+?type owl:onProperty <http://purl.obolibrary.org/obo/IAO_0000219> .
+?type owl:allValuesFrom ?phenotype .
+?phenotype owl:equivalentClass ?expression .
+}

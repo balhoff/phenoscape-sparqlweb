@@ -3,7 +3,7 @@
     <xsl:output method="html" indent="yes"/>
     
     <xsl:template match="/">
-        <table>
+        <table class="sortable">
             <thead>
                 <tr><th>Submitted</th><th>Provisional IRI</th><th>Label</th><th>Description</th><th>Parent</th><th>Permanent IRI</th><th class="deleter"></th></tr>
             </thead>
