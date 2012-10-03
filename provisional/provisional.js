@@ -1,7 +1,7 @@
 function reload_table(callback) {
 	$("#content").html('<img src="/images/rotation.gif">');
 	$.get("provisional.xsl", function (xslt) {
-		jQuery.get("/bioportal/provisional?submittedby=39814&apikey=" + bioportal_apikey, function (data) {
+		jQuery.get("/bioportal/provisional?submittedby=39814&pagesize=9999&apikey=" + bioportal_apikey, function (data) {
 			var xsltProcessor = new XSLTProcessor();
 			xsltProcessor.importStylesheet(xslt);
 			var html_data = xsltProcessor.transformToFragment(data, document);
@@ -34,8 +34,8 @@ function update_permanent_id(provisional_iri, permanent_iri, callback) {
 
 function add_labels_to_term_links() {
     var query = _.template("SELECT DISTINCT ?label WHERE { <<%= iri %>> <http://www.w3.org/2000/01/rdf-schema#label> ?label . }");
+    var first = true;
     $(".term-link").each(function (index, element) {
-        
         sparql.select(query({iri: $(element).attr("href")}), "/ontobee", function (json) {
             var bindings = json.results.bindings;
             if (bindings.length > 0) {
