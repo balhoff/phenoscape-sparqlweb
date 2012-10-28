@@ -1,11 +1,10 @@
 PREFIX ps: <http://vocab.phenoscape.org/> 
 PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> 
-PREFIX cdao: <http://www.evolutionaryontology.org/cdao/1.0/cdao.owl#>
 PREFIX obo: <http://purl.obolibrary.org/obo/>
 
 select distinct ?type ?type_label
 FROM <http://kb.phenoscape.org/> 
-# this doesn't yet handle negation for absence
+# this doesn't yet handle negation for absence - should just change to a DESCRIBE on phenotype annotation and pull out terms
 WHERE 
 { 
 <<%= state %>> ps:denotes_exemplar ?exemplar .

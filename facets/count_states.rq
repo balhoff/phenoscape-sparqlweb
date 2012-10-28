@@ -1,7 +1,7 @@
 PREFIX obo: <http://purl.obolibrary.org/obo/>
 PREFIX partof: <http://purl.obolibrary.org/obo/BFO_0000050_some_>
 PREFIX ps: <http://vocab.phenoscape.org/>
-PREFIX cdao: <http://www.evolutionaryontology.org/cdao/1.0/cdao.owl#>
+PREFIX dc: <http://purl.org/dc/elements/1.1/>
 PREFIX bd: <http://www.bigdata.com/rdf/search#>
 
 SELECT (count(distinct ?state) as ?count)
@@ -10,8 +10,9 @@ FROM <http://kb.phenoscape.org/closure>
 WHERE
 {
 <% if (text) { %>
-?state rdfs:label ?state_label .
-?state_label bd:search "<%= text %>" .
+?state dc:description ?state_desc .
+?state_desc bd:search "<%= text %>" .
+?state_desc bd:matchAllTerms "true" .
 <% } %>
 ?state ps:denotes_exemplar ?exemplar .
 ?exemplar obo:BFO_0000051 ?part .

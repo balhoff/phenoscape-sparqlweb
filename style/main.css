@@ -9,5 +9,5 @@ a.OWLProperty {font-style: italic;}
 .focal-facet-item {font-weight: bold;}
 
 #facets {width: 30%; float: left; font-size: small;}
-#characters {width: 69%; padding-left: 30%;}
+#characters, #states {width: 69%; padding-left: 30%;}
 .facet {margin-bottom: 2em;}

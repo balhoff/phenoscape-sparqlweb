@@ -1,7 +1,6 @@
 prefix obo: <http://purl.obolibrary.org/obo/>
 PREFIX ps: <http://vocab.phenoscape.org/> 
 PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> 
-PREFIX cdao: <http://www.evolutionaryontology.org/cdao/1.0/cdao.owl#>
 SELECT distinct ?character ?character_label ?state ?state_label
 FROM <http://kb.phenoscape.org/>
 FROM <http://kb.phenoscape.org/closure>
@@ -14,8 +13,8 @@ WHERE
 ?character_label bif:contains '"<%= text %>"' option(score ?sc).
 <% } %>
 ?state rdfs:label ?state_label .
-?cell cdao:has_State ?state .
-?cell cdao:belongs_to_Character ?character .
+?cell obo:CDAO_0000184 ?state .
+?cell obo:CDAO_0000205 ?character .
 <% if (entity || quality) { %>
 	?state ps:denotes_exemplar ?exemplar .
 	?exemplar obo:BFO_0000051 ?part .

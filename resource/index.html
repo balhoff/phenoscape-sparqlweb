@@ -2,50 +2,42 @@
 <html lang="en">
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-	<title>Phenoscape Knowledgebase</title>
+	<title>Resource « Phenoscape Knowledgebase</title>
 	<script src="/config/config.js"></script>
 	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
 	<script src="http://documentcloud.github.com/underscore/underscore-min.js"></script>
+	<script src="/scripts/jquery.rdfquery.core-1.0.js"></script>
 	<script src="/scripts/purl.js"></script>
 	<script src="/scripts/partials.js"></script>
 	<script src="/scripts/sparql.js"></script>
 	<script src="/scripts/sparql_partials.js"></script>
-	<link href="/style/main.css" media="screen" rel="stylesheet" type="text/css">
+	<script src="/scripts/class_expressions.js"></script>
+	<script src="/scripts/facets.js"></script>
+	<script src="/scripts/sparql_util.js"></script>
+	<link href="/style/main.css" media="screen" rel="stylesheet" type="text/css" />
 </head>
 <body>
 <div id="header"></div>
-<h2>Data</h2>
-<div>
-<p><a href="/character_states"><span id="character_count"><img class="spinner" src="/images/rotation.gif"></span> characters</a></p>
-<p><a href="/taxa"><span id="taxon_count"><img class="spinner" src="/images/rotation.gif"></span> annotated taxa</a></p>
-</div>
-<h2>Ontologies</h2>
-<table>
-	<thead>
-		<tr><th>Ontology</th><th>Version</th></tr>
-	</thead>
-	<tbody id="ontologies">
-	</tbody>
+<h2 id="resource_id"></h2>
+<table id="relationships" action="">
 </table>
-<div id="footer"></div>
 <div id="queries"><button id="view_sparql">View SPARQL queries used in this page.</button></div>
+<div id="footer"></div>
 </body>
-
 <script>
 $(document).ready(function() {
 	partials.load_partial("#header", "../shared/_header.html", {});
 	partials.load_partial("#footer", "../shared/_footer.html", {});
-	jQuery.get("/shared/count_characters.rq", function (query) { 
+	var resource = purl().param('id');
+	$("#resource_id").html(resource);
+	partials.render_template("./relationships.rq", {resource: resource}, function (query) { 
 		sparql.select(query, config.endpoint, function (sparql_json) {			
-				partials.load_partial_each("#character_count", "/shared/_count.html", sparql_json.results.bindings);
+				partials.load_partial_each("#relationships", "./_relationship.html", sparql_json.results.bindings);
 		}); 
 	});
-	sparql_partials.load_partial_with_select("#taxon_count", "/shared/_count.html", "/shared/count_annotated_taxa.rq", config.endpoint, {});
-	sparql_partials.load_partial_with_select("#ontologies", "/ontologies/_ontology.html", "/ontologies/ontologies.rq", config.endpoint, {});
 	jQuery("#view_sparql").click(function (event) {
 		partials.load_partial_each("#queries", "/shared/_sparql_query.html", sparql.queries);
 	});
 });
 </script>
-
 </html>

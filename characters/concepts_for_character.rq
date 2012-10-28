@@ -1,6 +1,5 @@
 PREFIX ps: <http://vocab.phenoscape.org/> 
 PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> 
-PREFIX cdao: <http://www.evolutionaryontology.org/cdao/1.0/cdao.owl#>
 PREFIX obo: <http://purl.obolibrary.org/obo/>
 
 select distinct ?type ?type_label
@@ -8,8 +7,8 @@ FROM <http://kb.phenoscape.org/>
 # this doesn't yet handle negation for absence
 WHERE 
 { 
-?cell cdao:belongs_to_Character <<%= character %>> .
-?cell cdao:has_State ?state .
+?cell obo:CDAO_0000205 <<%= character %>> .
+?cell obo:CDAO_0000184 ?state .
 ?state ps:denotes_exemplar ?exemplar .
 #?exemplar obo:BFO_0000051 ?part option(transitive) .
 ?exemplar obo:BFO_0000051 ?part .

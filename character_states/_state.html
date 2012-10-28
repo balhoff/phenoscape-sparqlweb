@@ -1,29 +1,17 @@
-<% var characterID = partials.nextID() %>
 <% var statesID = partials.nextID() %>
 <% var conceptsID = partials.nextID() %>
 <% var annotationID = partials.nextID() %>
 <% var viewAnnotationID = partials.nextID() %>
 
-<p class="character-description"><span id="<%= characterID %>"><img class="spinner" src="/images/rotation.gif"></span>: <span><%= state_label.value %></span></p>
-<div class="character-concepts" id="<%= conceptsID %>">
-	<img class="spinner" src="/images/rotation.gif">
-</div>
+<p class="character-description"><%= state_desc.value %> <a href="<%= '/resource/?id=' + state.value %>">®</a></p>
+<% if (typeof annotation != "undefined") { %>
 <div id="<%= annotationID %>">
 	<button id="<%= viewAnnotationID %>">View ontology annotation</button>
 </div>
+<% } %>
 
 
 <script>
-partials.render_template("./character_for_state.rq", {state:"<%= state.value %>"}, function (query) { 
-	sparql.select(query, config.endpoint, function (sparql_json) {			
-			partials.load_partial_each("#<%= characterID %>", "./_character.html", sparql_json.results.bindings);
-	}); 
-});
-partials.render_template("./concepts_for_state.rq", {state:"<%= state.value %>"}, function (query) { 
-	sparql.select(query, config.endpoint, function (sparql_json) {			
-			partials.load_partial_each("#<%= conceptsID %>", "./_state_concept.html", sparql_json.results.bindings);
-	}); 
-});
 $("#<%= viewAnnotationID %>").click(function (event) {
 	$("#<%= annotationID %>").html('<img class="spinner" src="/images/rotation.gif">');
 	partials.render_template("./annotation_for_state.rq", {state:"<%= state.value %>"}, function (query) {

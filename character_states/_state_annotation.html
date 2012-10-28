@@ -4,5 +4,6 @@
 
 <p class="state-annotation">
 <i>denotes only</i><br><br>
-<%= owl.class_expression(rdf.where("?p owl:equivalentClass ?restriction").filter(function () { return this.restriction.type === "bnode"; }).select(["restriction"]).pop()["restriction"], rdf).html_manchester_syntax() %>
+<% var phenotypes = rdf.where("?p rdfs:subClassOf ?restriction").filter(function () { return this.restriction.type === "bnode"; }).select(["restriction"]); %>
+<%= ((phenotypes.length > 0) ? (owl.class_expression(phenotypes.pop()["restriction"], rdf).html_manchester_syntax()) : "not annotated") %>
 </p>

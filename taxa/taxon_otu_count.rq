@@ -1,5 +1,7 @@
+PREFIX obo: <http://purl.obolibrary.org/obo/>
+
 select (count(distinct ?otu) as ?otu_count)
 where 
 { 
-?otu <http://www.evolutionaryontology.org/cdao/1.0/cdao.owl#has_External_Reference> <<%= taxon %>> . 
+?otu obo:CDAO_0000164 <<%= taxon %>> . 
 }

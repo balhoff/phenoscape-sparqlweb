@@ -1,19 +1,20 @@
 prefix obo: <http://purl.obolibrary.org/obo/>
 PREFIX ps: <http://vocab.phenoscape.org/> 
 PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> 
-PREFIX cdao: <http://www.evolutionaryontology.org/cdao/1.0/cdao.owl#>
+PREFIX owl: <http://www.w3.org/2002/07/owl#>
+PREFIX dc: <http://purl.org/dc/elements/1.1/>
 PREFIX bd: <http://www.bigdata.com/rdf/search#>
-SELECT distinct ?state ?state_label
+SELECT distinct ?state ?state_desc ?rank ?annotation
 FROM <http://kb.phenoscape.org/>
 FROM <http://kb.phenoscape.org/closure>
 WHERE 
 { 
-?state rdf:type cdao:Standard .
-?state rdfs:label ?state_label .
-# this query will need to be changed to search for states, using a concatenated character:state label value
-# ?state dc:description ?state_desc .
+?state rdf:type obo:CDAO_0000045 .
+?state dc:description ?state_desc .
 <% if (text) { %>
-?state_label bd:search "<%= text %>" .
+?state_desc bd:search "<%= text %>" .
+?state_desc bd:matchAllTerms "true" .
+?state_desc bd:rank ?rank .
 <% } %>
 <% if (entity || quality) { %>
 	?state ps:denotes_exemplar ?exemplar .
@@ -28,12 +29,18 @@ WHERE
 	?quality rdfs:subClassOf <<%= quality %>> .
 	<% } %>
 <% } %>
+OPTIONAL
+{
+?state rdf:type ?annotation .
+?annotation rdf:type owl:Restriction .
+?annotation owl:onProperty <http://purl.obolibrary.org/obo/IAO_0000219> .
 } 
+}
 
-<% if (false && text) { //intentionally disabled %>
-ORDER BY desc(?sc)
+<% if (text) { %>
+ORDER BY desc(?rank)
 <% } else { %>
-ORDER BY <%= desc ? 'desc(?state_label)' : '?state_label' %>
+ORDER BY <%= desc ? 'desc(?state_desc)' : '?state_desc' %>
 <% } %>
 LIMIT <%= limit %>
 OFFSET <%= offset %>

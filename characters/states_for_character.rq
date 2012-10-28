@@ -1,14 +1,14 @@
 PREFIX ps: <http://vocab.phenoscape.org/> 
 PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> 
-PREFIX cdao: <http://www.evolutionaryontology.org/cdao/1.0/cdao.owl#>
+PREFIX obo: <http://purl.obolibrary.org/obo/>
 SELECT distinct ?state ?state_label
 FROM <http://kb.phenoscape.org/> 
 WHERE 
 { 
-?state rdf:type cdao:Standard . 
+?state rdf:type obo:CDAO_0000184 . 
 ?state rdfs:label ?state_label .
-?cell cdao:has_State ?state .
-?cell cdao:belongs_to_Character <<%= character %>> .
+?cell obo:CDAO_0000184 ?state .
+?cell obo:CDAO_0000205 <<%= character %>> .
 } 
 
 ORDER BY ?state_label

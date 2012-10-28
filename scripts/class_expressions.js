@@ -16,8 +16,12 @@ var owl = {
 			}
 		};
 		
-		var wrap = function (text) {
-			return "(" + text + ")";
+		var wrap = function (text, skip) {
+		    if (skip) {
+		        return text;
+		    } else {
+		        return "(" + text + ")";
+		    }
 		}
 		
 		var label = function (resource) {
@@ -57,8 +61,17 @@ var owl = {
 			var listnode = rdf.where(node + " owl:intersectionOf ?list").select(["list"]).pop().list;
 			owl_class.operands = _.map(list(listnode), function (item) { return owl.class_expression(item, rdf); });
 			owl_class.manchester_syntax = function() { return wrap(_.map(owl_class.operands, function (operand) { return operand.manchester_syntax(); }).join(" and ")); };
-			owl_class.html_manchester_syntax = function() { return wrap(_.map(owl_class.operands, function (operand) { return operand.html_manchester_syntax(); }).join(" and ")); };
+			owl_class.html_manchester_syntax = function () { return wrap(_.map(owl_class.operands, function (operand) { return operand.html_manchester_syntax(); }).join(" and ")); };
 			return owl_class;
+		}
+		
+		var negation = function(owl_class) {
+		    owl_class.owltype = "ObjectComplementOf";
+		    owl_class.complement = owl.class_expression(rdf.where(node + " owl:complementOf ?complement").select(["complement"]).pop().complement, rdf);
+		    var no_wrap = owl_class.complement.owltype === "OWLClass";
+		    owl_class.manchester_syntax = function () { return "not " + wrap(owl_class.complement.manchester_syntax(), no_wrap); };
+		    owl_class.html_manchester_syntax = function () { return "not " + wrap(owl_class.complement.html_manchester_syntax(), no_wrap); };
+		    return owl_class;
 		}
 		
 		var named_class = function (owl_class) {
@@ -82,6 +95,8 @@ var owl = {
 			return restriction(owl_class);
 		} else if (rdf.where(node + " owl:intersectionOf ?list").length > 0) {
 			return intersection(owl_class);
+		} else if (rdf.where(node + " owl:complementOf ?complement").length > 0) {
+		    return negation(owl_class);
 		} else {
 			alert(node);
 		}	

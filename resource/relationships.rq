@@ -1,0 +1,13 @@
+PREFIX obo: <http://purl.obolibrary.org/obo/>
+PREFIX partof: <http://purl.obolibrary.org/obo/BFO_0000050_some_>
+PREFIX ps: <http://vocab.phenoscape.org/>
+PREFIX dc: <http://purl.org/dc/elements/1.1/>
+PREFIX bd: <http://www.bigdata.com/rdf/search#>
+
+SELECT ?p ?o
+FROM <http://kb.phenoscape.org/>
+WHERE
+{
+<<%= resource %>> ?p ?o .
+FILTER (!isBlank(?o))
+}

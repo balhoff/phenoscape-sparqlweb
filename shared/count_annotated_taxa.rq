@@ -1,13 +1,12 @@
 PREFIX ps: <http://vocab.phenoscape.org/> 
 PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> 
 PREFIX obo: <http://purl.obolibrary.org/obo/>
-PREFIX cdao: <http://www.evolutionaryontology.org/cdao/1.0/cdao.owl#>
 
 SELECT (count(distinct ?taxon) as ?count)
 FROM <http://kb.phenoscape.org/> 
 WHERE 
 { 
-?otu rdf:type cdao:TU .
-?otu cdao:has_External_Reference ?taxon .
-FILTER EXISTS {?cell cdao:belongs_to_TU ?otu .}
+?otu rdf:type obo:CDAO_0000138 .
+?otu obo:CDAO_0000164 ?taxon .
+FILTER EXISTS {?cell obo:CDAO_0000191 ?otu .}
 } 
