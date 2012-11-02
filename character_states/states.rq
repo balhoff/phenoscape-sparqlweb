@@ -16,18 +16,13 @@ WHERE
 ?state_desc bd:matchAllTerms "true" .
 ?state_desc bd:rank ?rank .
 <% } %>
-<% if (entity || quality) { %>
-	?state ps:denotes_exemplar ?exemplar .
-	?exemplar obo:BFO_0000051 ?part .
-	<% if (entity) { %>
-	?part rdf:type ?entity . 
-	?entity rdfs:subClassOf <<%= sparql_util.partof_iri(entity) %>> .
-	<% } %>
-	<% if (quality) { %>
-	?part obo:BFO_0000053 ?qual .
-	?qual rdf:type ?quality .
-	?quality rdfs:subClassOf <<%= quality %>> .
-	<% } %>
+<% if (entity) { %>
+?state rdf:type ?entity . 
+?entity rdfs:subClassOf <<%= sparql_util.involves_iri(entity) %>> .
+<% } %>
+<% if (quality) { %>
+?state rdf:type ?quality .
+?quality rdfs:subClassOf <<%= sparql_util.involves_iri(quality) %>> .
 <% } %>
 OPTIONAL
 {
@@ -36,7 +31,6 @@ OPTIONAL
 ?annotation owl:onProperty <http://purl.obolibrary.org/obo/IAO_0000219> .
 } 
 }
-
 <% if (text) { %>
 ORDER BY desc(?rank)
 <% } else { %>
@@ -44,3 +38,4 @@ ORDER BY <%= desc ? 'desc(?state_desc)' : '?state_desc' %>
 <% } %>
 LIMIT <%= limit %>
 OFFSET <%= offset %>
+

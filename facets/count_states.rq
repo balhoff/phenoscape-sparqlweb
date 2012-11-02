@@ -1,3 +1,5 @@
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
 PREFIX obo: <http://purl.obolibrary.org/obo/>
 PREFIX partof: <http://purl.obolibrary.org/obo/BFO_0000050_some_>
 PREFIX ps: <http://vocab.phenoscape.org/>
@@ -9,20 +11,18 @@ FROM <http://kb.phenoscape.org/>
 FROM <http://kb.phenoscape.org/closure>
 WHERE
 {
-<% if (text) { %>
+?state rdf:type obo:CDAO_0000045 .
 ?state dc:description ?state_desc .
+<% if (text) { %>
 ?state_desc bd:search "<%= text %>" .
 ?state_desc bd:matchAllTerms "true" .
 <% } %>
-?state ps:denotes_exemplar ?exemplar .
-?exemplar obo:BFO_0000051 ?part .
 <% if (entity) { %>
-?part rdf:type ?entity . 
-?entity rdfs:subClassOf <<%= sparql_util.partof_iri(entity) %>> .
+?state rdf:type ?entity . 
+?entity rdfs:subClassOf <<%= sparql_util.involves_iri(entity) %>> .
 <% } %>
 <% if (quality) { %>
-?part obo:BFO_0000053 ?qual .
-?qual rdf:type ?quality .
-?quality rdfs:subClassOf <<%= quality %>> .
+?state rdf:type ?quality .
+?quality rdfs:subClassOf <<%= sparql_util.involves_iri(quality) %>> .
 <% } %>
 }

@@ -1,7 +1,18 @@
-select distinct ?subclass
-from <http://kb.phenoscape.org/>
-where
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX owl: <http://www.w3.org/2002/07/owl#>
+PREFIX obo: <http://purl.obolibrary.org/obo/>
+PREFIX ps: <http://vocab.phenoscape.org/>
+PREFIX dc: <http://purl.org/dc/elements/1.1/>
+PREFIX bd: <http://www.bigdata.com/rdf/search#>
+
+SELECT DISTINCT ?subclass
+FROM <http://kb.phenoscape.org/>
+WHERE
 {
-?subclass rdfs:subClassOf <<%= superclass %>> .
+?involves_subclass rdfs:subClassOf <<%= sparql_util.involves_iri(superclass) %>> .
+?involves_subclass owl:equivalentClass ?equiv .
+?equiv owl:onProperty ps:involves .
+?equiv owl:someValuesFrom ?subclass .
 ?subclass rdfs:label ?label .
 }

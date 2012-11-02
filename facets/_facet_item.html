@@ -1,1 +1,24 @@
-<div class="facet-item" data-iri="<%= iri %>"><%= iri %> (<span class="facet-item-count"><img class="spinner" src="/images/rotation.gif"></span>)</div>
+<% var iriID = partials.nextID() %>
+
+<% // The iri can be either a real IRI or "any" %>
+<div class="facet-item" data-iri="<%= iri %>"><span id="<%= iriID %>" class="facet-item-link"></span> (<span class="facet-item-count"><img class="spinner" src="/images/rotation.gif"></span>)<div class="facet-children"></div></div>
+
+<script>
+(function () {
+var the_iri = '<%= iri %>';
+if (the_iri === "any") {
+	$("#<%= iriID %>").html("Any");
+} else {
+	$("#<%= iriID %>").html('<img class="spinner" src="/images/rotation.gif">');
+	partials.render_template("/shared/label.rq", {iris: [the_iri]}, function (query) {
+		sparql.select(query, config.endpoint, function (json) {
+			var label = the_iri;
+			if (json.results.bindings.length > 0) {
+				label = json.results.bindings[0].label.value;
+			}
+			partials.load_partial("#<%= iriID %>", "/facets/_facet_item_link.html", {iri: the_iri, label: label});
+		}); 
+	});
+}
+})();
+</script>
