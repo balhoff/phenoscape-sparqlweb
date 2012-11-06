@@ -1,8 +1,0 @@
-<% rdf.prefix("rdf", "http://www.w3.org/1999/02/22-rdf-syntax-ns#") %>
-<% rdf.prefix("rdfs", "http://www.w3.org/2000/01/rdf-schema#") %>
-<% rdf.prefix("owl", "http://www.w3.org/2002/07/owl#") %>
-
-<p class="state-annotation">
-<i>denotes only</i><br><br>
-<%= owl.class_expression(rdf.where("?p owl:equivalentClass ?restriction").filter(function () { return this.restriction.type === "bnode"; }).select(["restriction"]).pop()["restriction"], rdf).html_manchester_syntax() %>
-</p>
