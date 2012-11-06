@@ -17,6 +17,7 @@
 <div id="taxa">
 	<img class="spinner" src="/images/rotation.gif">
 </div>
+<div id="queries"><button id="view_sparql">View SPARQL queries used in this page.</button></div>
 <div id="footer"></div>
 </body>
 <script>
@@ -25,6 +26,9 @@ $(document).ready(function() {
 	partials.load_partial("#footer", "../shared/_footer.html", {});
 	var offset = purl().param('offset');
 	sparql_partials.load_partial_with_select("#taxa", "./_taxon.html", "./taxa.rq", config.endpoint, {limit:20, desc:(purl().param('desc') == 'true'), offset:(offset ? offset : 0)});	
+	jQuery("#view_sparql").click(function (event) {
+		partials.load_partial_each("#queries", "/shared/_sparql_query.html", sparql.queries);
+	});
 });
 </script>
 </html>
