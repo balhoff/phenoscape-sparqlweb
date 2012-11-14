@@ -13,6 +13,7 @@
 	<script src="/scripts/sparql_partials.js"></script>
 	<script src="/scripts/class_expressions.js"></script>
 	<script src="/scripts/widgets.js"></script>
+	<script src="/scripts/url_helper.js"></script>
 	<script src="/scripts/facets.js"></script>
 	<script src="/scripts/sparql_util.js"></script>
 	<link href="/style/main.css" media="screen" rel="stylesheet" type="text/css" />
@@ -33,7 +34,7 @@
 </div>
 <div id="pagination"></div>
 <div id="states">
-Loading...
+<img class="spinner" src="/images/rotation.gif">
 </div>
 <div id="queries"><button id="view_sparql">View SPARQL queries used in this page.</button></div>
 <div id="footer"></div>
@@ -45,7 +46,6 @@ $(document).ready(function() {
 	partials.load_partial("#footer", "../shared/_footer.html", {});
 	var offset = parseInt(purl().param('offset'));
 	offset = (offset > 0) ? offset : 0;
-	$("#pagination").append(widgets.paginator(document.URL, "offset", offset, LIMIT, 1000)); //FIXME total pages is a dummy value
 	var text = purl().param('text');
 	if (text) { text = text.replace("+", " "); }
 	text ? $("#text_search").html(text) : $("#text_search").html("<i>none</i>");
@@ -54,6 +54,7 @@ $(document).ready(function() {
 	if (encoded_facets) {
 		facet_paths = JSON.parse(decodeURIComponent(encoded_facets));
 	}
+	$("#pagination").append(widgets.paginator(url_helper.character_state_facet, {facets: facet_paths, offset: offset, limit: LIMIT, text: text}, 1000)); //FIXME total pages is a dummy value
 	var facet_params = facets.extract_query_parameters(facet_paths);
 	facets.fill_facet("#entity_facet", "entity", facet_paths, text, "/facets/count_states.rq");
 	facets.fill_facet("#quality_facet", "quality", facet_paths, text, "/facets/count_states.rq");
