@@ -28,9 +28,11 @@ var facets = {
     * @param {Function(String[])} callback
     * @returns undefined
     */
-	fill_facet: function (container, facet_key, facet_paths, text, query_template, callback) {
+	fill_facet: function (container, facet_key, page_params, query_template, callback) {
+	    var local_params = $.extend(true, {}, page_params);
+	    var facet_paths = local_params.facets;
 	    var params = facets.extract_query_parameters(facet_paths);
-	    params.text = text;
+	    params.text = page_params.text;
 		partials.compile_template(query_template, function (compiled_query) {
 			var iris = _.toArray(_.map(facet_paths[facet_key], function (item) { return {iri: item, facet: facet_key};}));
 			iris.splice(0, 0, {iri: "any"});
