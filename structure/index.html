@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+	<title>Structure Overview « Phenoscape Knowledgebase</title>
+	<script src="/config/config.js"></script>
+	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+	<script src="http://documentcloud.github.com/underscore/underscore-min.js"></script>
+	<script src="/scripts/jquery.rdfquery.core-1.0.js"></script>
+	<script src="/scripts/purl.js"></script>
+	<script src="/scripts/partials.js"></script>
+	<script src="/scripts/sparql.js"></script>
+	<script src="/scripts/sparql_partials.js"></script>
+	<script src="/scripts/class_expressions.js"></script>
+	<script src="/scripts/widgets.js"></script>
+	<script src="/scripts/url_helper.js"></script>
+	<script src="/scripts/facets.js"></script>
+	<script src="/scripts/sparql_util.js"></script>
+	<link href="/style/main.css" media="screen" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="header"></div>
+<div>
+	<h2 id="focal_structure"></h2>
+	<div>
+		<p>Genes expressed here:</p>
+		<div>Zebrafish: <span id="fish_expression_count"><img class="spinner" src="/images/rotation.gif"></span></div>
+		<div>Xenopus: <span id="frog_expression_count"><img class="spinner" src="/images/rotation.gif"></span></div>
+		<div>Mouse: <span id="mouse_expression_count"><img class="spinner" src="/images/rotation.gif"></span></div>
+	</div>
+	<div>
+		<p>Genes influencing phenotype of this (including parts):</p>
+		<div>Zebrafish: <span id="fish_phenotype_count"><img class="spinner" src="/images/rotation.gif"></span></div>
+		<div>Mouse: <span id="mouse_phenotype_count"><img class="spinner" src="/images/rotation.gif"></span></div>
+	</div>
+	<div>
+		<p>Character states describing this or some part: <span id="part_state_count"><img class="spinner" src="/images/rotation.gif"></span></p>
+	</div>
+</div>
+<div id="queries"><button id="view_sparql">View SPARQL queries used in this page.</button></div>
+<div id="footer"></div>
+</body>
+<script>
+var params = {iri: purl().param('iri')};
+$(document).ready(function() {
+	partials.load_partial("#header", "../shared/_header.html", {});
+	partials.load_partial("#footer", "../shared/_footer.html", {});
+	sparql_partials.load_partial_with_select("#focal_structure", "/shared/_term.html", "/shared/label.rq", config.endpoint, {iris: [params.iri]});
+	var count_and_link = function (container, data_query_template_path, count_query_template_path, parameters) {
+		partials.render_template(data_query_template_path, parameters, function (data_query) {
+			var link = config.endpointdownload + "?" + $.param({query: data_query}); 
+			partials.render_template(count_query_template_path, parameters, function (count_query) {
+				sparql.select(count_query, config.endpoint, function (json) {
+					var count = 0;
+					if (json.results.bindings.length > 0) {
+						count = json.results.bindings[0].count.value;
+					}
+					partials.load_partial(container, "./_download_link_with_count.html", {count: count, link: link});
+				}); 
+			});
+		});
+	};
+	count_and_link("#fish_expression_count", "./expression_genes.rq", "./expression_count.rq", {iri: params.iri, taxon: "http://purl.obolibrary.org/obo/NCBITaxon_7955"});
+	count_and_link("#frog_expression_count", "./expression_genes.rq", "./expression_count.rq", {iri: params.iri, taxon: "http://purl.obolibrary.org/obo/NCBITaxon_8355"});
+	count_and_link("#mouse_expression_count", "./expression_genes.rq", "./expression_count.rq", {iri: params.iri, taxon: "http://purl.obolibrary.org/obo/NCBITaxon_10090"});
+	count_and_link("#fish_phenotype_count", "./phenotype_genes.rq", "./phenotype_count.rq", {iri: params.iri, taxon: "http://purl.obolibrary.org/obo/NCBITaxon_7955"});
+	count_and_link("#mouse_phenotype_count", "./phenotype_genes.rq", "./phenotype_count.rq", {iri: params.iri, taxon: "http://purl.obolibrary.org/obo/NCBITaxon_10090"});
+	
+	sparql_partials.load_partial_with_select("#part_state_count", "/shared/_count.html", "/facets/count_states.rq", config.endpoint, {entity: params.iri, quality: null, text: null});
+	
+	
+	jQuery("#view_sparql").click(function (event) {
+		partials.load_partial_each("#queries", "/shared/_sparql_query.html", sparql.queries);
+	});
+});
+</script>
+</html>

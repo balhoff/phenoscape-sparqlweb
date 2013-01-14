@@ -1,0 +1,16 @@
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> 
+PREFIX obo: <http://purl.obolibrary.org/obo/>
+PREFIX partof: <http://purl.obolibrary.org/obo/BFO_0000050_some_http://purl.obolibrary.org/obo/>
+PREFIX ps: <http://vocab.phenoscape.org/>
+
+SELECT (COUNT(DISTINCT ?gene) AS ?count)
+FROM <http://kb.phenoscape.org/>
+FROM <http://kb.phenoscape.org/closure>
+WHERE 
+{ 
+?gene rdf:type obo:SO_0000704 .
+?phenotype_annotation ps:annotated_gene ?gene .
+?phenotype_annotation rdf:type ?entity_type .
+?entity_type rdfs:subClassOf <<%= sparql_util.involves_iri(iri) %>> .
+?phenotype_annotation ps:annotated_taxon <<%= taxon %>> .
+} 
