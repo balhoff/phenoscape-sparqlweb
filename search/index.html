@@ -23,10 +23,17 @@
 <div id="header"></div>
 <div id="query_form" action="">
 	<form>
-		<input id="search_text" name="text" class="search-field"></text><input type="submit" value="Search structures">
+		<input id="search_text" name="text" class="search-field"></text><input type="submit" value="Search again">
 	</form>
 </div>
-<div id="matches">
+<p>Click one of the ontology terms below to view related data.</p>
+<div class="matches">
+	<span>Label matches:</span>
+	<div id="label_matches"></div>
+</div>
+<div class="matches">
+	<span>Synonym matches:</span>
+	<div id="synonym_matches"></div>
 </div>
 
 <div id="queries"><button id="view_sparql">View SPARQL queries used in this page.</button></div>
@@ -39,8 +46,10 @@ $(document).ready(function() {
 	partials.load_partial("#footer", "../shared/_footer.html", {});
 	if (params.text) {
 		$("#search_text").val(params.text);
-		$("#matches").html('<img class="spinner" src="/images/rotation.gif">');
-		sparql_partials.load_partial_with_select("#matches", "./_match.html", "./search_classes.rq", config.endpoint, params);
+		$("#label_matches").html('<img class="spinner" src="/images/rotation.gif">');
+		$("#synonym_matches").html('<img class="spinner" src="/images/rotation.gif">');
+		sparql_partials.load_partial_with_select("#label_matches", "./_match.html", "./search_classes.rq", config.endpoint, params);
+		sparql_partials.load_partial_with_select("#synonym_matches", "./_match.html", "./search_classes_with_synonym.rq", config.endpoint, params);
 	}
 });
 </script>

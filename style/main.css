@@ -12,6 +12,7 @@ a.OWLProperty {font-style: italic;}
 #characters, #states {width: 69%; padding-left: 30%;}
 .facet {margin-bottom: 2em;}
 
-#matches a {margin: 1em; line-height: 150%;}
+.matches {border: 1px solid #999; border-radius: 20px; padding: 0.5em; margin: 2em;}
+.matches a {margin: 1em; line-height: 150%; }
 
 #footer {clear: both;}
