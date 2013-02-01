@@ -21,7 +21,8 @@
 <body>
 <div id="header"></div>
 <div>
-	<h2 id="focal_structure"></h2>
+	<h2 id="focal_structure"><img class="spinner" src="/images/rotation.gif"></h2>
+	<p><b>Definition: </b><span id="definition"><img class="spinner" src="/images/rotation.gif"></span></p>
 	<div>
 		<p>Genes expressed here:</p>
 		<div>Zebrafish: <span id="fish_expression_count"><img class="spinner" src="/images/rotation.gif"></span></div>
@@ -47,6 +48,7 @@ $(document).ready(function() {
 	partials.load_partial("#header", "../shared/_header.html", {});
 	partials.load_partial("#footer", "../shared/_footer.html", {});
 	sparql_partials.load_partial_with_select("#focal_structure", "/shared/_term.html", "/shared/label.rq", config.endpoint, {iris: [params.iri]});
+	sparql_partials.load_partial_with_select("#definition", "/shared/_text.html", "/shared/definition.rq", config.endpoint, {iris: [params.iri]});
 	var count_and_link = function (container, data_query_template_path, count_query_template_path, parameters) {
 		partials.render_template(data_query_template_path, parameters, function (data_query) {
 			var link = config.endpointdownload + "?" + $.param({query: data_query}); 
