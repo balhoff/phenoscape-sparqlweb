@@ -14,19 +14,40 @@
 </head>
 <body>
 <div id="header"></div>
-<h2>Data</h2>
-<div>
-<p><a href="/character_states"><span id="state_count"><img class="spinner" src="/images/rotation.gif"></span> character states</a></p>
-<p><a href="/taxa"><span id="taxon_count"><img class="spinner" src="/images/rotation.gif"></span> annotated taxa</a></p>
+<div style="float: right; border: 1px solid #999; border-radius: 20px; padding: 0.5em;">
+	<h2>Data overview</h2>
+	<div>
+		<h3>Evolutionary character matrices</h3>
+		<p><span id="state_count"><img class="spinner" src="/images/rotation.gif"></span> annotated character states</p>
+		<div>
+			<p><span id="taxon_count"><img class="spinner" src="/images/rotation.gif"></span> annotated taxa</p>
+		</div>
+	</div>
+	<div>
+		<h3>ZFIN</h3>
+		<p><span id="zfin_gene_expression_count"><img class="spinner" src="/images/rotation.gif"></span> gene expression annotations</p>
+		<p><span id="zfin_gene_phenotype_count"><img class="spinner" src="/images/rotation.gif"></span> gene phenotype annotations</p>
+	</div>
+	<div>
+		<h3>MGI</h3>
+		<p><span id="mgi_gene_expression_count"><img class="spinner" src="/images/rotation.gif"></span> gene expression annotations</p>
+		<p><span id="mgi_gene_phenotype_count"><img class="spinner" src="/images/rotation.gif"></span> gene phenotype annotations</p>
+	</div>
+	<div>
+		<h3>Xenbase</h3>
+		<p><span id="xenbase_gene_expression_count"><img class="spinner" src="/images/rotation.gif"></span> gene expression annotations</p>
+	</div>
+	<div>
+		<h3>HPO</h3>
+		<p><span id="human_gene_phenotype_count"><img class="spinner" src="/images/rotation.gif"></span> gene phenotype annotations</p>
+	</div>
 </div>
-<h2>Ontologies</h2>
-<table>
-	<thead>
-		<tr><th>Ontology</th><th>Version</th></tr>
-	</thead>
-	<tbody id="ontologies">
-	</tbody>
-</table>
+<p>Welcome to the development interface to the expanded Phenoscape Knowledgebase. This is a raw interface intended to provide basic access to the data. The new knowledgebase includes evolutionary phenotypic data from across vertebrates, including teleost fish, amphibians, archosaurs, and early tetrapods. It also integrates developmental genetic phenotype annotations and gene expression information from zebrafish (<a href="http://zfin.org">ZFIN</a>), mouse (<a href="http://www.informatics.jax.org">MGI</a>), frog (<a href="http://www.xenbase.org/">Xenbase</a>), and human (<a href="http://www.human-phenotype-ontology.org">HPO</a>).</p>
+
+<form action="/search/">
+	<input id="search_text" name="text" class="search-field"></text><input type="submit" value="Search anatomical structures">
+</form>
+
 <div id="footer"></div>
 <div id="queries"><button id="view_sparql">View SPARQL queries used in this page.</button></div>
 </body>
@@ -35,13 +56,13 @@
 $(document).ready(function() {
 	partials.load_partial("#header", "../shared/_header.html", {});
 	partials.load_partial("#footer", "../shared/_footer.html", {});
-	jQuery.get("/shared/count_states.rq", function (query) { 
+	jQuery.get("/shared/count_annotated_states.rq", function (query) { 
 		sparql.select(query, config.endpoint, function (sparql_json) {			
 				partials.load_partial_each("#state_count", "/shared/_count.html", sparql_json.results.bindings);
 		}); 
 	});
 	sparql_partials.load_partial_with_select("#taxon_count", "/shared/_count.html", "/shared/count_annotated_taxa.rq", config.endpoint, {});
-	sparql_partials.load_partial_with_select("#ontologies", "/ontologies/_ontology.html", "/ontologies/ontologies.rq", config.endpoint, {});
+	//sparql_partials.load_partial_with_select("#ontologies", "/ontologies/_ontology.html", "/ontologies/ontologies.rq", config.endpoint, {});
 	jQuery("#view_sparql").click(function (event) {
 		partials.load_partial_each("#queries", "/shared/_sparql_query.html", sparql.queries);
 	});

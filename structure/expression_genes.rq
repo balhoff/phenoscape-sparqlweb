@@ -3,7 +3,7 @@ PREFIX obo: <http://purl.obolibrary.org/obo/>
 PREFIX partof: <http://purl.obolibrary.org/obo/BFO_0000050_some_http://purl.obolibrary.org/obo/>
 PREFIX ps: <http://vocab.phenoscape.org/>
 
-SELECT DISTINCT ?gene ?gene_label
+SELECT DISTINCT ?gene (STR(?gene_label) AS ?gene_symbol)
 FROM <http://kb.phenoscape.org/>
 FROM <http://kb.phenoscape.org/closure>
 WHERE 

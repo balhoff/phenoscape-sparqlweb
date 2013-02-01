@@ -1,0 +1,11 @@
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> 
+PREFIX obo: <http://purl.obolibrary.org/obo/>
+PREFIX ps: <http://vocab.phenoscape.org/>
+
+SELECT (COUNT(DISTINCT ?state) as ?count)
+FROM <http://kb.phenoscape.org/> 
+WHERE 
+{ 
+?state rdf:type obo:CDAO_0000045 . 
+FILTER EXISTS { ?state ps:denotes_exemplar ?exemplar }
+} 

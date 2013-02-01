@@ -1,0 +1,22 @@
+PREFIX obo: <http://purl.obolibrary.org/obo/>
+PREFIX ps: <http://vocab.phenoscape.org/> 
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> 
+PREFIX owl: <http://www.w3.org/2002/07/owl#>
+PREFIX dc: <http://purl.org/dc/elements/1.1/>
+PREFIX bd: <http://www.bigdata.com/rdf/search#>
+SELECT DISTINCT ?term ?label
+FROM <http://kb.phenoscape.org/>
+WHERE 
+{ 
+?term rdf:type owl:Class .
+?term rdfs:label ?match_text . 
+?term rdfs:label ?label .
+?match_text bd:search "<%= text %>" .
+?match_text bd:rank ?rank .
+#?match_text bd:matchAllTerms "true" .
+FILTER(REGEX(STR(?term), "^http://purl.obolibrary.org/obo/UBERON_"))
+FILTER NOT EXISTS { ?term owl:deprecated "true"^^xsd:boolean }
+}
+ORDER BY asc(?rank)
+LIMIT 100
+

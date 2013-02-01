@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+	<title>Structure Overview « Phenoscape Knowledgebase</title>
+	<script src="/config/config.js"></script>
+	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+	<script src="http://documentcloud.github.com/underscore/underscore-min.js"></script>
+	<script src="/scripts/jquery.rdfquery.core-1.0.js"></script>
+	<script src="/scripts/purl.js"></script>
+	<script src="/scripts/partials.js"></script>
+	<script src="/scripts/sparql.js"></script>
+	<script src="/scripts/sparql_partials.js"></script>
+	<script src="/scripts/class_expressions.js"></script>
+	<script src="/scripts/widgets.js"></script>
+	<script src="/scripts/url_helper.js"></script>
+	<script src="/scripts/facets.js"></script>
+	<script src="/scripts/sparql_util.js"></script>
+	<script src="/scripts/url_helper.js"></script>
+	<link href="/style/main.css" media="screen" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="header"></div>
+<div id="query_form" action="">
+	<form>
+		<input id="search_text" name="text" class="search-field"></text><input type="submit" value="Search structures">
+	</form>
+</div>
+<div id="matches">
+</div>
+
+<div id="queries"><button id="view_sparql">View SPARQL queries used in this page.</button></div>
+<div id="footer"></div>
+</body>
+<script>
+var params = {text: decodeURIComponent(purl().param('text').replace(/\+/g, '%20'))};
+$(document).ready(function() {
+	partials.load_partial("#header", "../shared/_header.html", {});
+	partials.load_partial("#footer", "../shared/_footer.html", {});
+	if (params.text) {
+		$("#search_text").val(params.text);
+		$("#matches").html('<img class="spinner" src="/images/rotation.gif">');
+		sparql_partials.load_partial_with_select("#matches", "./_match.html", "./search_classes.rq", config.endpoint, params);
+	}
+});
+</script>
+</html>

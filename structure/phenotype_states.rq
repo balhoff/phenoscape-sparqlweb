@@ -1,0 +1,29 @@
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX obo: <http://purl.obolibrary.org/obo/>
+PREFIX partof: <http://purl.obolibrary.org/obo/BFO_0000050_some_>
+PREFIX ps: <http://vocab.phenoscape.org/>
+PREFIX dc: <http://purl.org/dc/elements/1.1/>
+PREFIX bd: <http://www.bigdata.com/rdf/search#>
+
+SELECT DISTINCT (STR(?matrix_label) AS ?matrix_file) (STR(?character_label) AS ?character_text) (STR(?state_label) AS ?state_text) (?state AS ?state_id)
+FROM <http://kb.phenoscape.org/>
+FROM <http://kb.phenoscape.org/closure>
+WHERE
+{
+?state rdf:type obo:CDAO_0000045 .
+?state rdfs:label ?state_label .
+?character ps:may_have_state_value ?state .
+?character rdfs:label ?character_label .
+?matrix rdf:type obo:CDAO_0000056 .
+?matrix obo:CDAO_0000142 ?character .
+?matrix rdfs:label ?matrix_label .
+<% if (entity) { %>
+?state rdf:type ?entity . 
+?entity rdfs:subClassOf <<%= sparql_util.involves_iri(entity) %>> .
+<% } %>
+<% if (quality) { %>
+?state rdf:type ?quality .
+?quality rdfs:subClassOf <<%= sparql_util.involves_iri(quality) %>> .
+<% } %>
+}

@@ -32,6 +32,7 @@
 		<p>Genes influencing phenotype of this (including parts):</p>
 		<div>Zebrafish: <span id="fish_phenotype_count"><img class="spinner" src="/images/rotation.gif"></span></div>
 		<div>Mouse: <span id="mouse_phenotype_count"><img class="spinner" src="/images/rotation.gif"></span></div>
+		<div>Human: <span id="human_phenotype_count"><img class="spinner" src="/images/rotation.gif"></span></div>
 	</div>
 	<div>
 		<p>Character states describing this or some part: <span id="part_state_count"><img class="spinner" src="/images/rotation.gif"></span></p>
@@ -41,7 +42,7 @@
 <div id="footer"></div>
 </body>
 <script>
-var params = {iri: purl().param('iri')};
+var params = {iri: decodeURIComponent(purl().param('iri'))};
 $(document).ready(function() {
 	partials.load_partial("#header", "../shared/_header.html", {});
 	partials.load_partial("#footer", "../shared/_footer.html", {});
@@ -65,8 +66,10 @@ $(document).ready(function() {
 	count_and_link("#mouse_expression_count", "./expression_genes.rq", "./expression_count.rq", {iri: params.iri, taxon: "http://purl.obolibrary.org/obo/NCBITaxon_10090"});
 	count_and_link("#fish_phenotype_count", "./phenotype_genes.rq", "./phenotype_count.rq", {iri: params.iri, taxon: "http://purl.obolibrary.org/obo/NCBITaxon_7955"});
 	count_and_link("#mouse_phenotype_count", "./phenotype_genes.rq", "./phenotype_count.rq", {iri: params.iri, taxon: "http://purl.obolibrary.org/obo/NCBITaxon_10090"});
+	count_and_link("#human_phenotype_count", "./phenotype_genes.rq", "./phenotype_count.rq", {iri: params.iri, taxon: "http://purl.obolibrary.org/obo/NCBITaxon_9606"});
+	count_and_link("#part_state_count", "./phenotype_states.rq", "/facets/count_states.rq", {entity: params.iri, quality: null, text: null});
 	
-	sparql_partials.load_partial_with_select("#part_state_count", "/shared/_count.html", "/facets/count_states.rq", config.endpoint, {entity: params.iri, quality: null, text: null});
+	//sparql_partials.load_partial_with_select("#part_state_count", "/shared/_count.html", "/facets/count_states.rq", config.endpoint, {entity: params.iri, quality: null, text: null});
 	
 	
 	jQuery("#view_sparql").click(function (event) {

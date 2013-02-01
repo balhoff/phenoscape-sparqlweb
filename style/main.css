@@ -1,4 +1,4 @@
-body {font-family: Helvetica;}
+body {font-family: Helvetica; padding: 1em;}
 img.spinner {height: 1em;}
 .search-field {width: 60%;}
 a.block {display: block;}
@@ -11,3 +11,7 @@ a.OWLProperty {font-style: italic;}
 #facets {width: 30%; float: left; font-size: small;}
 #characters, #states {width: 69%; padding-left: 30%;}
 .facet {margin-bottom: 2em;}
+
+#matches a {margin: 1em; line-height: 150%;}
+
+#footer {clear: both;}

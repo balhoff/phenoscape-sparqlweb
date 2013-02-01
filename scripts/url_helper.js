@@ -25,6 +25,10 @@ var url_helper = {
             add_param("limit=" + params.limit);
         }
         return "/character_states/" + param_string;
+    },
+    
+    structure: function (params) {
+        return "/structure/?" + $.param(params); // needs to be decoded when used?
     }
     
 };
