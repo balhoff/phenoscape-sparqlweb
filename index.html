@@ -42,7 +42,7 @@
 		<p><span id="human_gene_phenotype_count"><img class="spinner" src="/images/rotation.gif"></span> gene phenotype annotations</p>
 	</div>
 </div>
-<p>Welcome to the development interface to the expanded Phenoscape Knowledgebase. This is a raw interface intended to provide basic access to the data. The new knowledgebase includes evolutionary phenotypic data from across vertebrates, including teleost fish, amphibians, archosaurs, and early tetrapods. It also integrates developmental genetic phenotype annotations and gene expression information from zebrafish (<a href="http://zfin.org">ZFIN</a>), mouse (<a href="http://www.informatics.jax.org">MGI</a>), frog (<a href="http://www.xenbase.org/">Xenbase</a>), and human (<a href="http://www.human-phenotype-ontology.org">HPO</a>).</p>
+<p>Welcome to the development interface to the expanded Phenoscape Knowledgebase. This is a raw interface intended to provide basic access to the data. The new knowledgebase includes evolutionary phenotypic data from across vertebrates, including teleost fish, amphibians, archosaurs, and early tetrapods. It also integrates developmental genetic phenotype annotations and gene expression information imported from other resources, for zebrafish (<a href="http://zfin.org">ZFIN</a>), mouse (<a href="http://www.informatics.jax.org">MGI</a>), frog (<a href="http://www.xenbase.org/">Xenbase</a>), and human (<a href="http://www.human-phenotype-ontology.org">HPO</a>).</p>
 
 <form action="/search/">
 	<input id="search_text" name="text" class="search-field"></text><input type="submit" value="Search anatomical structures">
@@ -62,6 +62,9 @@ $(document).ready(function() {
 		}); 
 	});
 	sparql_partials.load_partial_with_select("#taxon_count", "/shared/_count.html", "/shared/count_annotated_taxa.rq", config.endpoint, {});
+	sparql_partials.load_partial_with_select("#zfin_gene_expression_count", "/shared/_count.html", "/shared/count_expression_annotations_for_taxon.rq", config.endpoint, {taxon: "http://purl.obolibrary.org/obo/NCBITaxon_7955"});
+	sparql_partials.load_partial_with_select("#mgi_gene_expression_count", "/shared/_count.html", "/shared/count_expression_annotations_for_taxon.rq", config.endpoint, {taxon: "http://purl.obolibrary.org/obo/NCBITaxon_10090"});
+	sparql_partials.load_partial_with_select("#xenbase_gene_expression_count", "/shared/_count.html", "/shared/count_expression_annotations_for_taxon.rq", config.endpoint, {taxon: "http://purl.obolibrary.org/obo/NCBITaxon_8355"});
 	//sparql_partials.load_partial_with_select("#ontologies", "/ontologies/_ontology.html", "/ontologies/ontologies.rq", config.endpoint, {});
 	jQuery("#view_sparql").click(function (event) {
 		partials.load_partial_each("#queries", "/shared/_sparql_query.html", sparql.queries);
