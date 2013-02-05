@@ -1,0 +1,17 @@
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> 
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX owl: <http://www.w3.org/2002/07/owl#>
+PREFIX obo: <http://purl.obolibrary.org/obo/>
+PREFIX ps: <http://vocab.phenoscape.org/>
+
+SELECT DISTINCT ?property (REPLACE(STR(?prop_label), "_", " ") AS ?property_label) ?filler ?filler_label
+FROM <http://kb.phenoscape.org/>
+WHERE 
+{ 
+<<%= iri %>> rdfs:subClassOf ?restriction .
+?restriction owl:onProperty ?property .
+?property rdfs:label ?prop_label .
+?restriction owl:someValuesFrom ?filler .
+?filler rdfs:label ?filler_label .
+FILTER(REGEX(STR(?filler), "^http://purl.obolibrary.org/obo/UBERON_"))
+} 
