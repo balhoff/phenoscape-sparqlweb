@@ -63,8 +63,13 @@ $(document).ready(function() {
 	});
 	sparql_partials.load_partial_with_select("#taxon_count", "/shared/_count.html", "/shared/count_annotated_taxa.rq", config.endpoint, {});
 	sparql_partials.load_partial_with_select("#zfin_gene_expression_count", "/shared/_count.html", "/shared/count_expression_annotations_for_taxon.rq", config.endpoint, {taxon: "http://purl.obolibrary.org/obo/NCBITaxon_7955"});
+	sparql_partials.load_partial_with_select("#zfin_gene_phenotype_count", "/shared/_count.html", "/shared/count_phenotype_annotations_for_mod_taxon.rq", config.endpoint, {taxon: "http://purl.obolibrary.org/obo/NCBITaxon_7955"});
 	sparql_partials.load_partial_with_select("#mgi_gene_expression_count", "/shared/_count.html", "/shared/count_expression_annotations_for_taxon.rq", config.endpoint, {taxon: "http://purl.obolibrary.org/obo/NCBITaxon_10090"});
+	sparql_partials.load_partial_with_select("#mgi_gene_phenotype_count", "/shared/_count.html", "/shared/count_phenotype_annotations_for_mod_taxon.rq", config.endpoint, {taxon: "http://purl.obolibrary.org/obo/NCBITaxon_10090"});
 	sparql_partials.load_partial_with_select("#xenbase_gene_expression_count", "/shared/_count.html", "/shared/count_expression_annotations_for_taxon.rq", config.endpoint, {taxon: "http://purl.obolibrary.org/obo/NCBITaxon_8355"});
+	sparql_partials.load_partial_with_select("#human_gene_phenotype_count", "/shared/_count.html", "/shared/count_phenotype_annotations_for_mod_taxon.rq", config.endpoint, {taxon: "http://purl.obolibrary.org/obo/NCBITaxon_9606"});
+	
+	
 	//sparql_partials.load_partial_with_select("#ontologies", "/ontologies/_ontology.html", "/ontologies/ontologies.rq", config.endpoint, {});
 	jQuery("#view_sparql").click(function (event) {
 		partials.load_partial_each("#queries", "/shared/_sparql_query.html", sparql.queries);
