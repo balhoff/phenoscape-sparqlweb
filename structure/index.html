@@ -20,9 +20,7 @@
 </head>
 <body>
 <div id="header"></div>
-<div>
-	<h2 id="focal_structure"><img class="spinner" src="/images/rotation.gif"></h2>
-	<p><b>Definition: </b><span id="definition"><img class="spinner" src="/images/rotation.gif"></span></p>
+<div id="data_links">
 	<div>
 		<p>Genes expressed here:</p>
 		<div>Zebrafish: <span id="fish_expression_count"><img class="spinner" src="/images/rotation.gif"></span></div>
@@ -41,6 +39,14 @@
 		<p>Character states describing this or some part: <span id="part_state_count"><img class="spinner" src="/images/rotation.gif"></span></p>
 	</div>
 </div>
+<div>
+	<h2 id="focal_structure"><img class="spinner" src="/images/rotation.gif"></h2>
+	<p><b>Definition: </b><span id="definition"><img class="spinner" src="/images/rotation.gif"></span></p>
+	<div id="relations">
+		<p><b>Is a type of: </b><span id="superclasses" class="link-listing"><img class="spinner" src="/images/rotation.gif"></span></p>
+		<p><b>Has subtypes: </b><span id="subclasses" class="link-listing"><img class="spinner" src="/images/rotation.gif"></span></p>
+	</div>
+</div>
 <div id="queries"><button id="view_sparql">View SPARQL queries used in this page.</button></div>
 <div id="footer"></div>
 </body>
@@ -51,6 +57,8 @@ $(document).ready(function() {
 	partials.load_partial("#footer", "../shared/_footer.html", {});
 	sparql_partials.load_partial_with_select("#focal_structure", "/shared/_term.html", "/shared/label.rq", config.endpoint, {iris: [params.iri]});
 	sparql_partials.load_partial_with_select("#definition", "/shared/_text.html", "/shared/definition.rq", config.endpoint, {iris: [params.iri]});
+	sparql_partials.load_partial_with_select("#superclasses", "./_term_link_to_structure.html", "/shared/direct_superclasses.rq", config.endpoint, {iri: params.iri});
+	sparql_partials.load_partial_with_select("#subclasses", "./_term_link_to_structure.html", "/shared/direct_uberon_subclasses.rq", config.endpoint, {iri: params.iri}, "/shared/_none.html");
 	var count_and_link = function (container, data_query_template_path, count_query_template_path, parameters) {
 		partials.render_template(data_query_template_path, parameters, function (data_query) {
 			var link = config.endpointdownload + "?" + $.param({query: data_query}); 

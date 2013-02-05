@@ -1,0 +1,16 @@
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> 
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+PREFIX owl: <http://www.w3.org/2002/07/owl#>
+PREFIX obo: <http://purl.obolibrary.org/obo/>
+PREFIX ps: <http://vocab.phenoscape.org/>
+
+SELECT DISTINCT ?s ?label
+FROM <http://kb.phenoscape.org/>
+WHERE 
+{ 
+?s rdfs:subClassOf <<%= iri %>> .
+?s rdfs:label ?label .
+FILTER(REGEX(STR(?s), "^http://purl.obolibrary.org/obo/UBERON_"))
+FILTER NOT EXISTS { ?s owl:deprecated "true"^^xsd:boolean }
+} 

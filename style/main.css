@@ -14,5 +14,9 @@ a.OWLProperty {font-style: italic;}
 
 .matches {border: 1px solid #999; border-radius: 20px; padding: 0.5em; margin: 2em;}
 .matches a {margin: 1em; line-height: 150%; }
+#data_links {border: 1px solid #999; border-radius: 20px; padding: 0.5em; margin: 2em; float: right;}
 
+#queries {clear: both;}
 #footer {clear: both;}
+
+.link-listing a {margin: 0 0.5em;}
