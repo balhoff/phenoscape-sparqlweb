@@ -6,7 +6,7 @@ PREFIX ps: <http://vocab.phenoscape.org/>
 PREFIX dc: <http://purl.org/dc/elements/1.1/>
 PREFIX bd: <http://www.bigdata.com/rdf/search#>
 
-SELECT DISTINCT (STR(?matrix_label) AS ?matrix_file) (STR(?character_label) AS ?character_text) (STR(?state_label) AS ?state_text) (?state AS ?state_id)
+SELECT DISTINCT (STR(?matrix_label) AS ?matrix_file) (STR(?character_label) AS ?character_text) (STR(?state_label) AS ?state_text)
 FROM <http://kb.phenoscape.org/>
 FROM <http://kb.phenoscape.org/closure>
 WHERE
